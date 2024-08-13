@@ -3,7 +3,7 @@
 	import Project from './Project.svelte';
 </script>
 
-<Meta title="Projects – Daniel" description="My projects." />
+<Meta title="Projects – sundei" description="My projects." />
 
 <main class="wrapper fade">
 	<h1 class="header">Projects</h1>
