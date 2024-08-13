@@ -37,10 +37,18 @@
 		if (activity?.timestamps?.end) {
 			const endTimestamp = new Date(activity.timestamps.end);
 			const durationInSeconds = differenceInSeconds(endTimestamp, now);
+			if (durationInSeconds < 0) {
+				// If the duration is negative, the activity has ended
+				return "Activity ended";
+			}
 			return formatDuration(durationInSeconds, "left");
 		} else if (activity?.created_at) {
 			const createdAtTimestamp = new Date(activity.created_at);
 			const elapsedInSeconds = differenceInSeconds(now, createdAtTimestamp);
+			if (elapsedInSeconds < 0) {
+				// If the elapsed time is negative, something went wrong
+				return "Invalid time";
+			}
 			return formatDuration(elapsedInSeconds, "elapsed");
 		} else {
 			return "No time information available.";
@@ -66,6 +74,7 @@
 		return !excludedTypes.includes(activity.type) && !excludedNames.includes(activity.name);
 	}
 </script>
+
 <!-- Activities Block -->
 {#if $lanyard?.activities}
 	<div class="mt-4 bg-gray-800 p-4 rounded-lg">
