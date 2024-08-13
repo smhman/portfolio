@@ -3,7 +3,7 @@
 
 	import Discord from '$lib/components/icons/Discord.svelte';
 
-	const discordId = '299707523370319883';
+	const discordId = '1113690068113170484';
 	const lanyard = useLanyard({
 		method: 'rest',
 		id: discordId
@@ -17,6 +17,7 @@
 	};
 
 	$: customStatus = $lanyard?.activities.find(a => a.type === 4);
+
 </script>
 
 <div class="mt-8 flex rounded-full items-center bg-gray-900">
@@ -30,6 +31,7 @@
 				aria-label="Discord Avatar"
 			>
 				<Discord />
+				alt="lol"
 			</object>
 
 			<span
