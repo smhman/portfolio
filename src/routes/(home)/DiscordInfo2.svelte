@@ -81,18 +81,28 @@
 		<h3 class="text-white font-semibold">Current Activities</h3>
 		{#each $lanyard.activities as activity (activity.id)}
 			{#if shouldDisplayActivity(activity)}
-				<div class="mt-2 text-sm">
-					<p class="opacity-80">
-						{activity.name}
-					</p>
-					{#if activity.details && activity.state}
-						<p class="opacity-80">
-							{activity.details} | {activity.state}
-						</p>
+				<div class="mt-2 flex items-center text-sm">
+					<!-- Display large image if available -->
+					{#if activity.assets?.large_image}
+						<img src={activity.assets.large_image.replace('mp:', 'https://cdn.discordapp.com/')} alt="Large Image" class="w-12 h-12 mr-4 rounded" />
 					{/if}
-					<p class="opacity-80">
-						{formatTime(activity)}
-					</p>
+					<div>
+						<p class="opacity-80 font-semibold">
+							{activity.name}
+						</p>
+						{#if activity.details && activity.state}
+							<p class="opacity-80">
+								{activity.details} | {activity.state}
+							</p>
+						{/if}
+						<!-- Display time and small text if available -->
+						<p class="opacity-80">
+							{formatTime(activity)}
+							{#if activity.assets?.small_text}
+								| {activity.assets.small_text}
+							{/if}
+						</p>
+					</div>
 				</div>
 			{/if}
 		{/each}
