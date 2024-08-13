@@ -73,6 +73,16 @@
 		
 		return !excludedTypes.includes(activity.type) && !excludedNames.includes(activity.name);
 	}
+
+	function transformImageUrl(url) {
+		// Find the last occurrence of /https/ and use the substring after it
+		const urlParts = url.split('/https/');
+		if (urlParts.length > 1) {
+			return `https://${urlParts[1]}`;
+		}
+		// If it doesn't match the expected pattern, return the original URL
+		return url;
+	}
 </script>
 
 <!-- Activities Block -->
@@ -84,7 +94,7 @@
 				<div class="mt-2 flex items-center text-sm">
 					<!-- Display large image if available -->
 					{#if activity.assets?.large_image}
-						<img src={activity.assets.large_image.replace('mp:', 'https://cdn.discordapp.com/')} alt="Large Image" class="w-12 h-12 mr-4 rounded" />
+						<img src={transformImageUrl(activity.assets.large_image)} alt="Large Image" class="w-12 h-12 mr-4 rounded" />
 					{/if}
 					<div>
 						<p class="opacity-80 font-semibold">
