@@ -14,6 +14,7 @@
 	"type": "module",
 	"dependencies": {
 		"@spotify/web-api-ts-sdk": "^1.2.0",
+		"@sveltejs/adapter-vercel": "^5.4.3",
 		"sk-lanyard": "^0.2.7",
 		"spotify": "^0.3.0"
 	},
@@ -41,6 +42,7 @@
 		"tailwindcss": "^3.4.1",
 		"tslib": "^2.6.2",
 		"typescript": "^5.4.2",
+		"vercel": "^35.2.4",
 		"vite": "^5.4.0",
 		"wrangler": "^3.34.2"
 	}
