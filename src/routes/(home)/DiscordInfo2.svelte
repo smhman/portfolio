@@ -83,6 +83,25 @@
 		// If it doesn't match the expected pattern, return the original URL
 		return url;
 	}
+
+	// New function to filter out duplicate SoundCloud activities and others
+	function filterUniqueActivities(activities) {
+		const uniqueActivities = [];
+		const seenNames = new Set();
+
+		for (const activity of activities) {
+			if (activity.name === 'SoundCloud') {
+				if (!seenNames.has('SoundCloud')) {
+					seenNames.add('SoundCloud');
+					uniqueActivities.push(activity);
+				}
+			} else {
+				uniqueActivities.push(activity);
+			}
+		}
+
+		return uniqueActivities;
+	}
 </script>
 
 <style>
@@ -123,7 +142,7 @@
 {#if $lanyard?.activities}
 	<div class="mt-4 bg-gray-800 p-4 rounded-lg">
 		<h3 class="text-white font-semibold">Current Activities</h3>
-		{#each $lanyard.activities as activity (activity.id)}
+		{#each filterUniqueActivities($lanyard.activities) as activity (activity.id)}
 			{#if shouldDisplayActivity(activity)}
 				<div class="mt-2 flex items-center text-sm">
 					<!-- Display large image with small image overlay if available -->
@@ -142,16 +161,14 @@
 						<p class="opacity-80 font-semibold">
 							{activity.name}
 						</p>
-						<!-- Display details and/or state depending on availability -->
-						{#if activity.details && activity.state}
-							<p class="opacity-80">
-								{activity.details} | {activity.state}
-							</p>
-						{:else if activity.details}
-							<p class="opacity-80">
-								{activity.details}
-							</p>
-						{/if}
+						<!-- Display details and state depending on availability -->
+						<p class="opacity-80">
+							{activity.details}
+							{#if activity.details && activity.state}
+								|
+							{/if}
+							{activity.state}
+						</p>
 						<!-- Display time and small text if available -->
 						<p class="opacity-80">
 							{formatTime(activity)}
@@ -165,3 +182,4 @@
 		{/each}
 	</div>
 {/if}
+ 
