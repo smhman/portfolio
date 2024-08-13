@@ -8,7 +8,7 @@
 		day: 'numeric',
 		year: 'numeric',
 		month: 'long',
-		timeZone: 'Europe/Vilnius'
+		timeZone: 'Europe/Riga'
 	});
 
 	const tf = new Intl.DateTimeFormat('en-US', {
