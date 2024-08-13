@@ -6,6 +6,7 @@
 	const discordId = '1113690068113170484';
 	const lanyard = useLanyard({
 		method: 'rest',
+		pollInterval: 1000,
 		id: discordId
 	});
 
