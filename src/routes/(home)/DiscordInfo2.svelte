@@ -85,6 +85,40 @@
 	}
 </script>
 
+<style>
+	.activity-image-container {
+		position: relative;
+		width: 48px;
+		height: 48px;
+	}
+
+	.activity-image {
+		width: 100%;
+		height: 100%;
+		border-radius: 8px;
+	}
+
+	.overlay-icon {
+		position: absolute;
+		bottom: -2px; /* Adjusted to better position the small icon */
+		right: -2px;  /* Adjusted to better position the small icon */
+		width: 16px;
+		height: 16px;
+		background-color: white; /* Ensures the icon has a white background */
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow for depth */
+	}
+
+	.overlay-icon img {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+	}
+</style>
+
 <!-- Activities Block -->
 {#if $lanyard?.activities}
 	<div class="mt-4 bg-gray-800 p-4 rounded-lg">
@@ -92,11 +126,19 @@
 		{#each $lanyard.activities as activity (activity.id)}
 			{#if shouldDisplayActivity(activity)}
 				<div class="mt-2 flex items-center text-sm">
-					<!-- Display large image if available -->
+					<!-- Display large image with small image overlay if available -->
 					{#if activity.assets?.large_image}
-						<img src={transformImageUrl(activity.assets.large_image)} alt="Large Image" class="w-12 h-12 mr-4 rounded" />
+						<div class="activity-image-container">
+							<img src={transformImageUrl(activity.assets.large_image)} alt="Large Image" class="activity-image" />
+							<!-- Display small image as an icon in the corner -->
+							{#if activity.assets?.small_image}
+								<div class="overlay-icon">
+									<img src={transformImageUrl(activity.assets.small_image)} alt="Small Image" />
+								</div>
+							{/if}
+						</div>
 					{/if}
-					<div>
+					<div class="ml-4">
 						<p class="opacity-80 font-semibold">
 							{activity.name}
 						</p>
