@@ -12,6 +12,7 @@
 	import Spotify from '$lib/components/icons/Spotify.svelte';
 	import Twitter from '$lib/components/icons/Twitter.svelte';
 	import Meta from '$lib/components/Meta.svelte';
+	import { Analytics } from '@vercel/analytics/react';
 </script>
 
 <Meta title="sundei" description="My portfolio and personal website." />
