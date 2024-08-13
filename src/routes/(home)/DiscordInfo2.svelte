@@ -100,9 +100,14 @@
 						<p class="opacity-80 font-semibold">
 							{activity.name}
 						</p>
+						<!-- Display details and/or state depending on availability -->
 						{#if activity.details && activity.state}
 							<p class="opacity-80">
 								{activity.details} | {activity.state}
+							</p>
+						{:else if activity.details}
+							<p class="opacity-80">
+								{activity.details}
 							</p>
 						{/if}
 						<!-- Display time and small text if available -->
