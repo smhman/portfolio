@@ -33,12 +33,12 @@
 	<span>
 		{#if data}
 			It's
-			<b>{data.main.temp.toFixed(0)} °F</b> with
+			<b>{data.main.temp.toFixed(0)} °C</b> with
 			{names[data.weather[0].description] ?? data.weather[0].description}
 			in
 			<b>{data.name}</b>.
 		{:else}
-			In <b>Marietta</b>
+			In <b>Tallinn</b>
 		{/if}
 	</span>
 </p>
