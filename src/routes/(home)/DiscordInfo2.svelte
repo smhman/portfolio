@@ -97,9 +97,13 @@
 		}
 		return state ? state.trim() : '';
 	}
-
 	function reformatDetails(activity) {
 		if (activity.details) {
+			// Handle the specific case where details is "Viewing playlist:"
+			if (activity.details.startsWith('Viewing playlist:') && activity.state) {
+				return `${activity.details.trim()} ${activity.state.trim()}`;
+			}
+
 			const lowerDetails = activity.details.toLowerCase();
 			let channelName = cleanState(activity.state) || "";
 
@@ -128,6 +132,7 @@
 
 		return activity.details || '';
 	}
+
 
 	function filterUniqueActivities(activities) {
 		const uniqueActivities = [];
@@ -176,9 +181,23 @@
 			}
 			return rank || state;
 		} else {
-			return activity.state || '';
+			// Handle cases like "Searching for: | mis minuga saab"
+			const state = activity.state?.trim() || '';
+			
+			// If the state includes "Searching for:", remove the trailing pipe if there's nothing after it
+			if (state.startsWith('Searching for:')) {
+				return state.replace(/\|\s*$/, '');
+			}
+
+			// If state is just the pipe or similar, return an empty string
+			if (state === '|') {
+				return '';
+			}
+
+			return state;
 		}
 	}
+
 </script>
 
 <style>
