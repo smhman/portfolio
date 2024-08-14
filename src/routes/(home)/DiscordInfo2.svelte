@@ -7,7 +7,7 @@
 	const discordId = '1113690068113170484';
 	const lanyard = useLanyard({
 		method: 'rest',
-		pollInterval: 1000,
+		pollInterval: 100,
 		id: discordId
 	});
 
@@ -26,7 +26,7 @@
 	onMount(() => {
 		interval = setInterval(() => {
 			now = new Date(); // Update `now` to trigger reactivity
-		}, 1000);
+		}, 50);
 	});
 
 	onDestroy(() => {
