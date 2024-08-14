@@ -108,8 +108,14 @@
 		}
 
 		if (activity.details) {
-			// Handle other cases like "Viewing playlist:"
-			if (activity.details.startsWith('Viewing playlist:') && activity.state) {
+			// Handle YouTube-specific cases like "Searching for:"
+			if (activity.name === 'YouTube' && activity.details.startsWith('Searching for:') && activity.state) {
+				const cleanedState = cleanState(activity.state);
+				return `${activity.details.trim()} ${cleanedState}`;
+			}
+
+			// Handle other YouTube cases like "Viewing playlist:"
+			if (activity.name === 'YouTube' && activity.details.startsWith('Viewing playlist:') && activity.state) {
 				return `${activity.details.trim()} ${cleanState(activity.state)}`;
 			}
 
