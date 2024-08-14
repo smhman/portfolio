@@ -68,7 +68,7 @@
 	function shouldDisplayActivity(activity) {
 		const excludedTypes = [4];
 		const excludedNames = ['Custom Status', 'Spotify'];
-		
+
 		return !excludedTypes.includes(activity.type) && !excludedNames.includes(activity.name);
 	}
 
@@ -92,16 +92,25 @@
 	}
 
 	function cleanState(state) {
+		// Remove unnecessary parts like "custom" from the state
+		if (state && state.toLowerCase().includes("custom")) {
+			return state.replace(/custom/i, "").trim();
+		}
 		if (state && state.toLowerCase().includes("of channel:")) {
 			return state.replace(/of channel:/i, "").trim();
 		}
 		return state ? state.trim() : '';
 	}
 	function reformatDetails(activity) {
+		// Handle type 6 (custom status)
+		if (activity.type === 6) {
+			return `Right now, I'm ${activity.details.trim()}`;
+		}
+
 		if (activity.details) {
-			// Handle the specific case where details is "Viewing playlist:"
+			// Handle other cases like "Viewing playlist:"
 			if (activity.details.startsWith('Viewing playlist:') && activity.state) {
-				return `${activity.details.trim()} ${activity.state.trim()}`;
+				return `${activity.details.trim()} ${cleanState(activity.state)}`;
 			}
 
 			const lowerDetails = activity.details.toLowerCase();
@@ -133,6 +142,21 @@
 		return activity.details || '';
 	}
 
+	function getActivityImage(activity) {
+		if (activity.type === 6 && activity.emoji && activity.emoji.id) {
+			return getEmojiUrl(activity.emoji.id);
+		}
+		// Handle other image cases here as before
+		if (activity.assets?.large_image && activity.assets.large_image.includes('https')) {
+			return transformImageUrl(activity.assets.large_image);
+		} else if (activity.application_id && activity.assets?.large_image) {
+			return getDiscordAppImageUrl(activity.application_id, activity.assets.large_image);
+		} else if (getLocalLogo(activity.name)) {
+			return getLocalLogo(activity.name);
+		} else {
+			return null;
+		}
+	}
 
 	function filterUniqueActivities(activities) {
 		const uniqueActivities = [];
@@ -167,6 +191,10 @@
 		return `https://cdn.discordapp.com/app-assets/${applicationId}/${imageId}.webp?size=512`;
 	}
 
+	function getEmojiUrl(emojiId) {
+		return `https://cdn.discordapp.com/emojis/${emojiId}.png`;
+	}
+
 	function getDisplayText(activity) {
 		if (activity.name === 'osu!') {
 			if (activity.state && activity.state.toLowerCase() === 'clicking circles') {
@@ -197,7 +225,6 @@
 			return state;
 		}
 	}
-
 </script>
 
 <style>
@@ -241,27 +268,14 @@
 		{#each filterUniqueActivities($lanyard.activities) as activity (activity.id)}
 			{#if shouldDisplayActivity(activity)}
 				<div class="mt-2 flex items-center text-sm">
-					{#if activity.assets?.large_image && activity.assets.large_image.includes('https')}
+					{#if getActivityImage(activity)}
 						<div class="activity-image-container">
-							<img src={transformImageUrl(activity.assets.large_image)} alt="{activity.name} Logo" class="activity-image" />
+							<img src={getActivityImage(activity)} alt="{activity.name} Logo" class="activity-image" />
 							{#if activity.assets?.small_image}
 								<div class="overlay-icon">
 									<img src={transformImageUrl(activity.assets.small_image)} alt="Small Image" />
 								</div>
 							{/if}
-						</div>
-					{:else if activity.application_id && activity.assets?.large_image}
-						<div class="activity-image-container">
-							<img src={getDiscordAppImageUrl(activity.application_id, activity.assets.large_image)} alt="{activity.name} Logo" class="activity-image" />
-							{#if activity.assets?.small_image}
-								<div class="overlay-icon">
-									<img src={getDiscordAppImageUrl(activity.application_id, activity.assets.small_image)} alt="Small Image" />
-								</div>
-							{/if}
-						</div>
-					{:else if getLocalLogo(activity.name)}
-						<div class="activity-image-container">
-							<img src={getLocalLogo(activity.name)} alt="{activity.name} Logo" class="activity-image" />
 						</div>
 					{:else}
 						<div class="activity-image-container">
