@@ -152,16 +152,46 @@
 		if (activity.type === 6 && activity.emoji && activity.emoji.id) {
 			return getEmojiUrl(activity.emoji.id);
 		}
-		// Handle other image cases here as before
+
+		// Handle osu! specific large image
+		if (activity.name === 'osu!' && activity.application_id && activity.assets?.large_image) {
+			return getDiscordAppImageUrl(activity.application_id, activity.assets.large_image);
+		}
+
+		// Handle general large images from assets
 		if (activity.assets?.large_image && activity.assets.large_image.includes('https')) {
 			return transformImageUrl(activity.assets.large_image);
-		} else if (activity.application_id && activity.assets?.large_image) {
-			return getDiscordAppImageUrl(activity.application_id, activity.assets.large_image);
-		} else if (getLocalLogo(activity.name)) {
-			return getLocalLogo(activity.name);
-		} else {
-			return null;
 		}
+
+		// Fallback to application-specific image if available
+		if (activity.application_id && activity.assets?.large_image) {
+			return getDiscordAppImageUrl(activity.application_id, activity.assets.large_image);
+		}
+
+		// Use local logos if available
+		if (getLocalLogo(activity.name)) {
+			return getLocalLogo(activity.name);
+		}
+
+		return null;
+	}
+	function getActivitySmallImage(activity) {
+		// Handle osu! specific small image
+		if (activity.name === 'osu!' && activity.application_id && activity.assets?.small_image) {
+			return getDiscordAppImageUrl(activity.application_id, activity.assets.small_image);
+		}
+
+		// Handle general small images from assets
+		if (activity.assets?.small_image && activity.assets.small_image.includes('https')) {
+			return transformImageUrl(activity.assets.small_image);
+		}
+
+		// Fallback to application-specific small image if available
+		if (activity.application_id && activity.assets?.small_image) {
+			return getDiscordAppImageUrl(activity.application_id, activity.assets.small_image);
+		}
+
+		return null;
 	}
 
 	function filterUniqueActivities(activities) {
@@ -277,9 +307,9 @@
 					{#if getActivityImage(activity)}
 						<div class="activity-image-container">
 							<img src={getActivityImage(activity)} alt="{activity.name} Logo" class="activity-image" />
-							{#if activity.assets?.small_image}
+							{#if getActivitySmallImage(activity)}
 								<div class="overlay-icon">
-									<img src={transformImageUrl(activity.assets.small_image)} alt="Small Image" />
+									<img src={getActivitySmallImage(activity)} alt="Small Image" />
 								</div>
 							{/if}
 						</div>
