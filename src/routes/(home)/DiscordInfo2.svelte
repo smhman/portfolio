@@ -109,6 +109,10 @@
 
 		if (activity.details) {
 			// Handle YouTube-specific cases like "Searching for:"
+			if (activity.name === 'Twitch' && activity.state) {
+            	const cleanedState = cleanState(activity.state);
+            	return `${activity.details.trim()} | ${cleanedState}`;
+        	}
 			if (activity.name === 'YouTube' && activity.details.startsWith('Searching for:') && activity.state) {
 				const cleanedState = cleanState(activity.state);
 				return `${activity.details.trim()} ${cleanedState}`;
