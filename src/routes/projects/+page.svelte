@@ -27,12 +27,12 @@
 		A small page for my friend
 		afke, who is a YouTuber and musician.
 	</Project>
-	<Project
+	<!--<Project
 		name="Online Radio Player"
 		href="https://raadio.sundei.eu/"
 		src="/images/projects/raadio.jpg"
 	>
 		A small online radio player,
 		which has Estonian radios
-	</Project>
+	</Project> -->
 </main>
