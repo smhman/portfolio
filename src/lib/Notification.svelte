@@ -36,6 +36,8 @@
 	{/if}
 {/if}
 
+
+<style>
 :root {
 	--public-notif-wrapper-height: 70px;
 	--public-notif-wrapper-margin: 20px;
