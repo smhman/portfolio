@@ -22,7 +22,8 @@
 					</div>
                         <div class="marquee-wrapper">
                             <div class="marquee-inner">
-                                <span>{data.textEt}</span>
+                                <span>{data.textEt}&nbsp;&nbsp;&nbsp;</span>
+                                <span>{data.textEt}&nbsp;&nbsp;&nbsp;</span>
                             </div>
                         <div class="marquee-fade"></div>
                     </div>
@@ -151,17 +152,17 @@
 	box-sizing: border-box;
 }
 .marquee-inner {
-	display: inline-block;
+	display: inline-flex;
 	white-space: nowrap;
+	min-width: 100vw;
 	animation: scroll-left 20s linear infinite;
-	min-width: 100vw; /* 👈 force it to be at least as wide as the screen */
 }
 
 .marquee-inner span {
 	font-size: 26px;
 	color: white;
 	font-weight: 500;
-	padding-right: 100%; /* This creates the loop delay */
+	padding-right: 4rem; /* controls spacing between the two lines */
     display: inline-block;
 }
 .marquee-inner .ghost {
@@ -234,7 +235,7 @@
 	align-items: center;
 	white-space: nowrap;
 	will-change: transform;
-	animation: scroll-left 15s linear infinite;
+	animation: scroll-left 12s linear infinite;
 	font-size: 26px;
 	color: white;
 	font-weight: 500;
