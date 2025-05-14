@@ -154,11 +154,14 @@
 .marquee-inner {
 	display: inline-block;
 	white-space: nowrap;
-	animation: scroll-left 20s linear infinite;
+	animation: scroll-pause-loop 21s linear infinite;
 	min-width: 100%; /* ensures it starts offscreen */
 }
 
 .marquee-inner span {
+    font-size: 26px;
+    color: white;
+	font-weight: 500;
 	display: inline-block;
 	padding-right: 100%; /* makes the scroll loop smooth */
 }
@@ -166,12 +169,15 @@
 .marquee-inner .ghost {
 	opacity: 0.5;
 }
-@keyframes scroll-left {
-	from {
+@keyframes scroll-pause-loop {
+	0% {
 		transform: translateX(100%);
 	}
-	to {
+	90% {
 		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(-100%); /* pause here */
 	}
 }
 
@@ -233,7 +239,7 @@
 	align-items: center;
 	white-space: nowrap;
 	will-change: transform;
-	animation: scroll-left 12s linear infinite;
+    animation: scroll-pause-loop 12s linear infinite;
 	font-size: 26px;
 	color: white;
 	font-weight: 500;
