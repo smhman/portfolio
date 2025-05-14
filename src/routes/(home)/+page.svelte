@@ -20,8 +20,8 @@
 	<h1 class="header">sundei</h1>
 
 	<p class="mt-4 text-gray-400">
-		Hey! I'm <b>sundei</b>, an 18-year old programmer from
-		<b><span class="text-teal-400">Tartu, Estonia</span></b>. I'm studying in <span class="text-lime-400"><b>Tartu Vocational College</b></span> to be an IT-specialist.
+		Name: <b>sundei</b><br>
+		Location: <b><span class="text-teal-400">Tartu, Estonia</span></b>.
 	</p>
 
 	<div class="mt-4 flex gap-6">
@@ -66,7 +66,7 @@
 	
 </p>
 <div style="margin-top: 20px; border-radius: 13px; overflow: hidden;">
-    <iframe title="ALIKA - ALIKA | Spotify" src="https://open.spotify.com/embed/album/2qGwXvw1kIv5zPpwqXVLjR?utm_source=generator" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe title="Katarsis - Tavo akys | Spotify" src="https://open.spotify.com/track/1imPa2lzxmLKggLCpkBAoo" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 </div>
 
 			
