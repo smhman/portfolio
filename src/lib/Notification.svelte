@@ -20,11 +20,10 @@
 					<div class="public-notif-toggle" on:click={() => expanded = false}>
 						<span class="public-notif-close">X</span>
 					</div>
-                        <div class="marquee-wrapper">
-                            <div class="marquee-inner">
-                                <span>{data.textEt}&nbsp;&nbsp;&nbsp;</span>
-                                <span>{data.textEt}&nbsp;&nbsp;&nbsp;</span>
-                            </div>
+                    <div class="marquee-wrapper">
+                        <div class="marquee-inner">
+                            <span>{data.textEt + '\xa0'.repeat(15)}</span>
+                        </div>
                         <div class="marquee-fade"></div>
                     </div>
 				</div> <!-- .public-notif-container -->
@@ -148,32 +147,31 @@
 	display: flex;
 	align-items: center;
 	padding-left: 20px;
-	padding-right: 80px; /* Leaves room for the close button */
+	padding-right: 80px;
 	box-sizing: border-box;
 }
+
 .marquee-inner {
-	display: inline-flex;
+	display: inline-block;
 	white-space: nowrap;
-	min-width: 100vw;
 	animation: scroll-left 20s linear infinite;
+	min-width: 100%; /* ensures it starts offscreen */
 }
 
 .marquee-inner span {
-	font-size: 26px;
-	color: white;
-	font-weight: 500;
-	padding-right: 4rem; /* controls spacing between the two lines */
-    display: inline-block;
+	display: inline-block;
+	padding-right: 100%; /* makes the scroll loop smooth */
 }
+
 .marquee-inner .ghost {
 	opacity: 0.5;
 }
 @keyframes scroll-left {
 	from {
-		transform: translateX(100%); /* ⬅️ Start fully offscreen to the right */
+		transform: translateX(100%);
 	}
 	to {
-		transform: translateX(-100%); /* ⬅️ End fully offscreen to the left */
+		transform: translateX(-100%);
 	}
 }
 
