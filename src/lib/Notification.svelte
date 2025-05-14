@@ -20,16 +20,17 @@
 					<div class="public-notif-toggle" on:click={() => expanded = false}>
 						<span class="public-notif-close">X</span>
 					</div>
-                        <div class="marquee-wrapper">
-                            <div class="marquee-text">
-                                <span>{data.textEt}</span>
-                            </div>
-                            <div class="marquee-fade"></div>
-                        </div>
-                    </div>
-				</div>
-			</div>
-		</div>
+
+					<div class="marquee-wrapper">
+						<div class="marquee-text">
+							<span>{data.textEt}</span>
+						</div>
+						<div class="marquee-fade"></div>
+					</div>
+
+				</div> <!-- .public-notif-container -->
+			</div> <!-- .public-notif-wrapper -->
+		</div> <!-- .public-notif-overlay -->
 	{:else}
 		<div class="notif-floater" on:click={() => expanded = true} title="Open warning">
 			<span>!</span>
