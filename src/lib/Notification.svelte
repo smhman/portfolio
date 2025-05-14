@@ -22,7 +22,7 @@
 					</div>
                         <div class="marquee-wrapper">
                             <div class="marquee-inner">
-                                <span>{data.textEt + '\xa0'.repeat(20)}</span>
+                                <span>{data.textEt}</span>
                             </div>
                         <div class="marquee-fade"></div>
                     </div>
@@ -171,12 +171,13 @@
 }
 @keyframes scroll-left {
 	from {
-		transform: translateX(0%);
+		transform: translateX(100%); /* ⬅️ Start fully offscreen to the right */
 	}
 	to {
-		transform: translateX(-100%);
+		transform: translateX(-100%); /* ⬅️ End fully offscreen to the left */
 	}
 }
+
 .marquee-wrapper::after {
 	content: '';
 	position: absolute;
@@ -246,16 +247,6 @@
 .marquee-text span {
 	display: inline-block;
 	padding-right: 100%; /* Give it room to loop */
-}
-
-/* Animation for marquee scroll */
-@keyframes scroll-left {
-	from {
-		transform: translateX(0%);
-	}
-	to {
-		transform: translateX(-100%);
-	}
 }
 
 /* Fade gradient to match design */
