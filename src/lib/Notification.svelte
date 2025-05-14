@@ -21,12 +21,13 @@
 						<span class="public-notif-close">X</span>
 					</div>
 
-					<div class="marquee-wrapper">
-						<div class="marquee-text">
-							<span>{data.textEt}</span>
-						</div>
-						<div class="marquee-fade"></div>
-					</div>
+                        <div class="marquee-wrapper">
+                            <div class="marquee-inner">
+                                <span>{data.textEt}</span>
+                                <span class="ghost">{data.textEt}</span>
+                            </div>
+                            <div class="marquee-fade"></div>
+                        </div>
 
 				</div> <!-- .public-notif-container -->
 			</div> <!-- .public-notif-wrapper -->
@@ -146,10 +147,38 @@
 
 .marquee-wrapper {
 	position: relative;
-	padding-right: 80px; /* Leave space for the X button */
 	overflow: hidden;
+	height: var(--public-notif-wrapper-height);
+	display: flex;
+	align-items: center;
+	padding-left: 20px;
+	padding-right: 80px; /* Leaves room for the close button */
+	box-sizing: border-box;
+}
+.marquee-inner {
+	display: inline-flex;
+	align-items: center;
+	white-space: nowrap;
+	animation: scroll-left 15s linear infinite;
 }
 
+.marquee-inner span {
+	font-size: 26px;
+	color: white;
+	font-weight: 500;
+	padding-right: 4rem; /* spacing between repeats */
+}
+.marquee-inner .ghost {
+	opacity: 0.5;
+}
+@keyframes scroll-left {
+	from {
+		transform: translateX(0%);
+	}
+	to {
+		transform: translateX(-100%);
+	}
+}
 .marquee-wrapper::after {
 	content: '';
 	position: absolute;
@@ -208,11 +237,12 @@
 	align-items: center;
 	white-space: nowrap;
 	will-change: transform;
-	animation: scroll-left 20s linear infinite;
+	animation: scroll-left 15s linear infinite;
 	font-size: 26px;
 	color: white;
 	font-weight: 500;
-	padding-left: 100%; /* Start off-screen */
+	padding-left: 100%;  /* Wait before entering */
+	padding-right: 80px; /* Wait before restarting */
 }
 
 .marquee-text span {
@@ -233,11 +263,11 @@
 /* Fade gradient to match design */
 .marquee-fade {
 	position: absolute;
-	top: 0;
 	right: 0;
+	top: 0;
 	width: 80px;
 	height: 100%;
-	background: linear-gradient(to left, #c40707 20%, transparent 100%);
+	background: linear-gradient(to left, #c40707 0%, transparent 100%);
 	pointer-events: none;
 	z-index: 1;
 }
