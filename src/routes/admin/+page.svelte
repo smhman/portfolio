@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+
 	let textEt = '', textEn = '', textRu = '', show = true;
 	let message = '';
 	const endpoint = 'https://notif-server.sundei.eu/notification';
@@ -26,7 +27,7 @@
 </script>
 
 <main>
-	<h1>🔧 Notification Admin Panel</h1>
+	<h1>🛠️ Notification Admin</h1>
 
 	<div class="field-group">
 		<label for="et">Text (Estonian)</label>
@@ -58,20 +59,26 @@
 </main>
 
 <style>
+	:root {
+		color-scheme: dark;
+	}
+
 	main {
 		max-width: 700px;
 		margin: 2rem auto;
 		padding: 2rem;
-		background: #fff;
+		background: #1e1e2f;
 		border-radius: 12px;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 		font-family: system-ui, sans-serif;
+		color: #eee;
 	}
 
 	h1 {
 		font-size: 1.8rem;
 		margin-bottom: 1.5rem;
 		text-align: center;
+		color: #fff;
 	}
 
 	.field-group {
@@ -81,17 +88,20 @@
 	textarea {
 		width: 100%;
 		padding: 0.75rem;
-		border: 1px solid #ccc;
+		border: 1px solid #444;
 		border-radius: 8px;
 		font-size: 1rem;
 		resize: vertical;
 		min-height: 80px;
+		background: #111;
+		color: #eee;
 	}
 
 	label {
 		display: block;
 		font-weight: 600;
 		margin-bottom: 0.4rem;
+		color: #ccc;
 	}
 
 	.checkbox label {
@@ -105,7 +115,7 @@
 		width: 100%;
 		padding: 0.75rem;
 		font-size: 1.1rem;
-		background-color: #1d4ed8;
+		background-color: #2563eb;
 		color: white;
 		border: none;
 		border-radius: 8px;
@@ -114,13 +124,13 @@
 	}
 
 	button:hover {
-		background-color: #2563eb;
+		background-color: #1e40af;
 	}
 
 	.message {
 		margin-top: 1rem;
 		text-align: center;
 		font-weight: 600;
-		color: #16a34a;
+		color: #22c55e;
 	}
 </style>
