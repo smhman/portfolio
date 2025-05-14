@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-    let data = { show: true };
+	let data = null;
 	let expanded = true;
 
 	onMount(async () => {
