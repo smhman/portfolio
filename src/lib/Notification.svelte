@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	let data = null;
+    let data = { show: true };
 	let expanded = true;
 
 	onMount(async () => {
@@ -83,7 +83,7 @@
 		radial-gradient(farthest-side at 45% -10px, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0.1) 90%, rgba(0, 0, 0, 0) 100%);
 	opacity: 1;
 	pointer-events: all;
-	transition: all 0.2s 0.3s;
+	transition: none;
 }
 
 .public-notif-container {
@@ -94,7 +94,7 @@
 	margin: 0 auto;
 	background-color: #c40707;
 	border-radius: 6px;
-	overflow: visible;
+	overflow: hidden; /* CRITICAL: clips fade and keeps corners clean */
 	pointer-events: all;
 }
 
