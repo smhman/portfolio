@@ -154,9 +154,7 @@
 	display: inline-block;
 	white-space: nowrap;
 	animation: scroll-left 20s linear infinite;
-	font-size: 26px;
-	font-weight: 500;
-	color: white;
+	min-width: 100vw; /* 👈 force it to be at least as wide as the screen */
 }
 
 .marquee-inner span {
