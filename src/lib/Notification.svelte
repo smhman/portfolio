@@ -20,15 +20,12 @@
 					<div class="public-notif-toggle" on:click={() => expanded = false}>
 						<span class="public-notif-close">X</span>
 					</div>
-
                         <div class="marquee-wrapper">
                             <div class="marquee-inner">
-                                <span>{data.textEt}</span>
-                                <span class="ghost">{data.textEt}</span>
+                                <span>{data.textEt + '\xa0'.repeat(20)}</span>
                             </div>
-                            <div class="marquee-fade"></div>
-                        </div>
-
+                        <div class="marquee-fade"></div>
+                    </div>
 				</div> <!-- .public-notif-container -->
 			</div> <!-- .public-notif-wrapper -->
 		</div> <!-- .public-notif-overlay -->
@@ -154,17 +151,20 @@
 	box-sizing: border-box;
 }
 .marquee-inner {
-	display: inline-flex;
-	align-items: center;
+	display: inline-block;
 	white-space: nowrap;
-	animation: scroll-left 15s linear infinite;
+	animation: scroll-left 20s linear infinite;
+	font-size: 26px;
+	font-weight: 500;
+	color: white;
 }
 
 .marquee-inner span {
 	font-size: 26px;
 	color: white;
 	font-weight: 500;
-	padding-right: 4rem; /* spacing between repeats */
+	padding-right: 100%; /* This creates the loop delay */
+    display: inline-block;
 }
 .marquee-inner .ghost {
 	opacity: 0.5;
