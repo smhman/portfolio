@@ -15,19 +15,12 @@
 	<div class="public-notif-wrapper-bg"></div>
 	<div class="public-notif-wrapper">
 		<details class="public-notif-container" open>
-			<summary class="public-notif-toggle" aria-label="Ava/sulge" title="Ava/sulge">
-				<span class="public-notif-close">X</span>
-				<span class="public-notif-open">!</span>
-			</summary>
 			<details class="public-notif-expansion">
 				<summary aria-label="Laienda/kitsenda" title="Laienda/kitsenda">
 					<marquee class="public-notif-text public-notif-marquee" scrollamount="5">
 						{data.textEt}
 					</marquee>
 				</summary>
-				<p class="public-notif-text expanded">
-					{data.textEt}
-				</p>
 			</details>
 		</details>
 	</div>
