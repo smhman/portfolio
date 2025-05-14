@@ -21,10 +21,11 @@
 						<span class="public-notif-close">X</span>
 					</div>
                         <div class="marquee-wrapper">
-                            <marquee class="public-notif-text public-notif-marquee" scrollamount="5">
-                                {data.textEt}
-                            </marquee>
-                        <div class="marquee-fade"></div>
+                            <div class="marquee-text">
+                                <span>{data.textEt}</span>
+                            </div>
+                            <div class="marquee-fade"></div>
+                        </div>
                     </div>
 				</div>
 			</div>
@@ -199,6 +200,45 @@
 	cursor: pointer;
 	z-index: 10001;
 	transition: transform 0.2s ease;
+}
+/* ✅ Modern CSS marquee replacement */
+.marquee-text {
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	will-change: transform;
+	animation: scroll-left 20s linear infinite;
+	font-size: 26px;
+	color: white;
+	font-weight: 500;
+	padding-left: 100%; /* Start off-screen */
+}
+
+.marquee-text span {
+	display: inline-block;
+	padding-right: 100%; /* Give it room to loop */
+}
+
+/* Animation for marquee scroll */
+@keyframes scroll-left {
+	from {
+		transform: translateX(0%);
+	}
+	to {
+		transform: translateX(-100%);
+	}
+}
+
+/* Fade gradient to match design */
+.marquee-fade {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 80px;
+	height: 100%;
+	background: linear-gradient(to left, #c40707 20%, transparent 100%);
+	pointer-events: none;
+	z-index: 1;
 }
 
 .notif-floater:hover {
