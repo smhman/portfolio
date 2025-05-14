@@ -1,10 +1,11 @@
 <script>
-	import { onMount } from 'svelte';
 	let textEt = '', textEn = '', textRu = '';
 	let message = '';
 
+	const endpoint = 'https://notif-server.sundei.eu/notification';
+
 	onMount(async () => {
-		const res = await fetch('/api/notification');
+		const res = await fetch(endpoint);
 		if (res.ok) {
 			const data = await res.json();
 			textEt = data.textEt;
@@ -14,7 +15,7 @@
 	});
 
 	async function save() {
-		const res = await fetch('/api/notification', {
+		const res = await fetch(endpoint, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ textEt, textEn, textRu })

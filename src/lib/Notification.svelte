@@ -3,7 +3,7 @@
 	let data = null;
 
 	onMount(async () => {
-		const res = await fetch('/api/notification');
+		const res = await fetch('https://notif-server.sundei.eu/notification');
 		if (res.ok) {
 			data = await res.json();
 		}
