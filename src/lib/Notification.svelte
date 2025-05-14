@@ -204,4 +204,4 @@
 .notif-floater:hover {
 	transform: scale(1.05);
 }
-
+</style>
