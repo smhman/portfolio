@@ -259,6 +259,8 @@
 	background: linear-gradient(to left, #c40707 0%, transparent 100%);
 	pointer-events: none;
 	z-index: 1;
+    border-top-right-radius: 6px; /* Match container */
+    border-bottom-right-radius: 6px;
 }
 
 .notif-floater:hover {
