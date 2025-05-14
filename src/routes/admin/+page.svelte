@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	let textEt = '', textEn = '', textRu = '';
 	let message = '';
 
