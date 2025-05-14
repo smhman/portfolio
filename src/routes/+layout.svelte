@@ -5,6 +5,7 @@
 
 	import NavLink from './NavLink.svelte';
 	import BackgroundEffect from './BackgroundEffect.svelte';
+	import Notification from '$lib/Notification.svelte';
 
 	function getBaseRoute(pathname: string | undefined) {
 		return pathname?.match(/\/[^/]*/)?.[0] ?? '/';
@@ -32,9 +33,7 @@
 		});
 	});
 </script>
-<script>
-	import Notification from '$lib/Notification.svelte';
-</script>
+
 <BackgroundEffect />
 <Notification />
 
