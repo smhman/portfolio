@@ -123,15 +123,14 @@
 				</a>
 
 				{#each artistsList as artist, i}
-					{#if i !== 0}, {/if}
 					<a
 						href={localArtistLinks[artist] || "#"}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="border-b border-transparent transition hv:border-current"
 					>
-						{artist}
-					</a>
+						{artist}{i < artistsList.length - 1 ? "," : ""}
+					</a>{i < artistsList.length - 1 ? " " : ""}
 				{/each}
 			{:else}
 				Not Listening to Anything
