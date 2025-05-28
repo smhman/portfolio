@@ -21,7 +21,7 @@
 		"Victorious 2.0: More Music From The Hit TV Show":
 			"https://cdn.sundei.eu/art/victorious-2.jpg",
 		"Victorious: Music From The Hit TV Show":
-			"https://cdn.sundei	.eu/art/victorious-1.jpg"
+			"https://cdn.sundei.eu/art/victorious-1.jpg"
 	};
 
 	// Valib sobiva kaane, kui lugu on lokaalne
@@ -103,7 +103,7 @@
 		<p class="line-clamp-1 break-all text-gray-400">
 			{#if data?.track}
 				<a
-					href={data.track.external_urls.spotify}
+  					href={getTrackLink(data.track.name) || data.track.external_urls.spotify}
 					target="_blank"
 					rel="noopener noreferrer"
 					class="mr-1 text-white font-semibold border-b border-transparent transition hv:border-current"
