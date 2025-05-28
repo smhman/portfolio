@@ -21,7 +21,7 @@
 		"Victorious 2.0: More Music From The Hit TV Show":
 			"https://cdn.sundei.eu/art/victorious-2.jpg",
 		"Victorious: Music From The Hit TV Show":
-			"https://cdn.sundei.eu/art/victorious-1.jpg"
+			"https://cdn.sundei	.eu/art/victorious-1.jpg"
 	};
 
 	// Valib sobiva kaane, kui lugu on lokaalne
@@ -53,8 +53,8 @@
 		"Victorious Cast": "https://open.spotify.com/artist/1KYszkVzlhV3rAqmAcYIgd"
 	};
 	$: artistsList = data?.track?.artists?.length === 1
-		? data.track.artists[0].name.split(";").map(a => a.trim())
-		: data?.track?.artists?.map(a => a.name) || [];
+	? data.track.artists[0].name.split(",").map(a => a.trim())  // koma järgi split ja trim
+	: data?.track?.artists?.map(a => a.name) || [];
 	function clamp(t: number) {
 		return Math.max(Math.min(t, 1), 0);
 	}
