@@ -11,10 +11,17 @@
 	let lastFetched = 0;
 
 	const localTrackLinks: Record<string, string> = {
-		"Faster than Boyz": "https://open.spotify.com/track/0powdVQEIZSaSnNupt2yPE?si=bfed3a9224cb458a"
+		"Faster than Boyz": "https://open.spotify.com/track/0powdVQEIZSaSnNupt2yPE?si=bfed3a9224cb458a",
+		"": "",
+		"": "",
+		"": "",
+		"": "",
+		"": "",
+		"": "",
+		"": "",
+		"": "",
 	};
-
-
+	
 	// CDN albumikaante map
 	const localAlbumCovers: Record<string, string> = {
 		"Victorious 3.0: Even More Music From The Hit TV Show":
@@ -56,6 +63,20 @@
 					data.track.duration_ms
 			)
 		: 0;
+
+	const customArtistLinks: Record<string, string> = {
+		"Victoria Justice": "https://open.spotify.com/artist/2OTfr6S2kuHRYStjt1IkY6",
+		"Ariana Grande": "https://open.spotify.com/artist/66CXWjxzNUsdJxJ2JdwvnR",
+		"Leon Thomas III": "https://open.spotify.com/artist/5Z3CI4r6K4WAtl1O1id3HJ",
+		"Elizabeth Gillies": "https://open.spotify.com/artist/0tnLXvm7c6ozq46x6qzgvL",
+		"Matt Bennett": "https://open.spotify.com/artist/0D9NxxLyD8hXkZQM1WXoWU",
+		"Victorious Cast": "https://open.spotify.com/artist/1KYszkVzlhV3rAqmAcYIgd"
+	};
+
+	// Function to process artist names
+	function getArtistUrl(artist: {name: string, external_urls: {spotify: string}}) {
+		return customArtistLinks[artist.name] || artist.external_urls.spotify;
+	}
 </script>
 
 <div class="mt-4 flex rounded-full items-center bg-gray-900">
@@ -107,13 +128,13 @@
 						,
 					{/if}
 					<a
-						href={artist.external_urls.spotify}
+						href={getArtistUrl(artist)}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="border-b border-transparent transition hv:border-current"
 					>
-						{artist.name}</a
-					>
+						{artist.name}
+					</a>
 				{/each}
 			{:else}
 				Not Listening to Anything
