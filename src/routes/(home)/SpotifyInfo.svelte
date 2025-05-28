@@ -11,7 +11,30 @@
 	let lastFetched = 0;
 
 	const localTrackLinks: Record<string, string> = {
-		"Faster than Boyz": "https://open.spotify.com/track/0powdVQEIZSaSnNupt2yPE?si=bfed3a9224cb458a"
+		"Make It Shine (Victorious Theme)": "https://open.spotify.com/track/4M7PM1oAb4FaYIu5wiVnCJ",
+		"Freak The Freak Out": "https://open.spotify.com/track/5q4uMmYpzS0zduoBoSPKsU",
+		"Best Friend's Brother": "https://open.spotify.com/track/0VRh0HgB1RsgqjH7YswsJK",
+		"Beggin' On Your Knees": "https://open.spotify.com/track/2jXxUK7a6zVPStFSCZqe4G",
+		"All I Want Is Everything": "https://open.spotify.com/track/6wtevpyGfiHMwaTltoTcWH",
+		"You're The Reason": "https://open.spotify.com/track/4k4AibHwZjJ41bXu7ToVSP",
+		"Give It Up": "https://open.spotify.com/track/4sqQci4nqA37mA5tcHJnfo",
+		"I Want You Back": "https://open.spotify.com/track/7cPInqSwBq0nV0PINEs89X",
+		"Song 2 You": "https://open.spotify.com/track/5o3JbTRMCdrMI7xxt35KyQ",
+		"Tell Me That You Love Me": "https://open.spotify.com/track/03gp1uTgpOdCxjDCXr3saU",
+		"Finally Falling": "https://open.spotify.com/track/41eaRFYMRvdP9WYXLmfU6m",
+		"Leave It All To Shine": "https://open.spotify.com/track/6nmuXal0nsHT8T4y9MXHjC",
+		"Broken Glass": "https://open.spotify.com/track/3fJ2qEr2yGOPoZG3o84VIp",
+		"Make It In America": "https://open.spotify.com/track/6gfAQs9TWAq91Ehp3eLFUX",
+		"Take A Hint": "https://open.spotify.com/track/1T20tqHKrePjszGOdbFOEd",
+		"Shut Up And Dance": "https://open.spotify.com/track/3myg6Gpulo6fD0EOnz5dOQ",
+		"5 Fingaz to the Face": "https://open.spotify.com/track/4TNYEycAT9vJw0yWl3oVab",
+		"Countdown": "https://open.spotify.com/track/5FBnmSW9mKMFIT4yg7pnub",
+		"Don't You (Forget About Me)": "https://open.spotify.com/track/2Z5FipHH2FebcDQyPBRFkm",
+		"Here's 2 Us (feat. Victoria Justice)": "https://open.spotify.com/track/3n5TN5s5NFWatzrsFmQOse",
+		"L.A. Boyz (feat. Victoria Justice & Ariana Grande)": "https://open.spotify.com/track/2cOpRVjsE4qZLZbFOB47VJ",
+		"Bad Boys (feat. Victoria Justice)": "https://open.spotify.com/track/2MdS9zhalwAJURsVaaNm2J",
+		"You Don't Know Me (feat. Elizabeth Gillies)": "https://open.spotify.com/track/6mSL6E1oxowyr3qknFAHTm",
+		"Faster than Boyz (feat. Victoria Justice)": "https://open.spotify.com/track/0powdVQEIZSaSnNupt2yPE"
 	};
 	
 	// CDN albumikaante map
