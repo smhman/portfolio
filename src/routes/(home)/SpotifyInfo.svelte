@@ -53,8 +53,8 @@
 		"Victorious Cast": "https://open.spotify.com/artist/1KYszkVzlhV3rAqmAcYIgd"
 	};
 	$: artistsList = data?.track?.artists?.length === 1
-	? data.track.artists[0].name.split(",").map(a => a.trim())  // koma järgi split ja trim
-	: data?.track?.artists?.map(a => a.name) || [];
+		? data.track.artists[0].name.split(";").map(a => a.trim())
+		: data?.track?.artists?.map(a => a.name) || [];
 	function clamp(t: number) {
 		return Math.max(Math.min(t, 1), 0);
 	}
@@ -112,15 +112,15 @@
 				</a>
 
 				{#each artistsList as artist, i}
-				{#if i !== 0}, {/if}
-				<a
-					href={localArtistLinks[artist] || "#"}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="border-b border-transparent transition hv:border-current"
-				>
-					{artist}
-				</a>
+					{#if i !== 0}, {/if}
+					<a
+						href={localArtistLinks[artist] || "#"}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="border-b border-transparent transition hv:border-current"
+					>
+						{artist}
+					</a>
 				{/each}
 			{:else}
 				Not Listening to Anything
