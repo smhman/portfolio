@@ -17,11 +17,11 @@
 	// CDN albumikaante map
 	const localAlbumCovers: Record<string, string> = {
 		"Victorious 3.0: Even More Music From The Hit TV Show":
-			"https://cdn.test.eu/art/victorious-3.jpg",
+			"https://cdn.sundei.eu/art/victorious-3.jpg",
 		"Victorious 2.0: More Music From The Hit TV Show":
-			"https://cdn.test.eu/art/victorious-2.jpg",
+			"https://cdn.sundei.eu/art/victorious-2.jpg",
 		"Victorious: Music From The Hit TV Show":
-			"https://cdn.test.eu/art/victorious-1.jpg"
+			"https://cdn.sundei.eu/art/victorious-1.jpg"
 	};
 
 	// Valib sobiva kaane, kui lugu on lokaalne
