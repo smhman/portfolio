@@ -10,6 +10,22 @@
 	let data: NowPlayingResponse | undefined;
 	let lastFetched = 0;
 
+	// CDN albumikaante map
+	const localAlbumCovers: Record<string, string> = {
+		"Victorious 3.0: Even More Music From The Hit TV Show":
+			"https://cdn.sundei.eu/art/victorious-3.jpg",
+		"Victorious 2.0: More Music From The Hit TV Show":
+			"https://cdn.sundei.eu/art/victorious-2.jpg",
+		"Victorious: Music From The Hit TV Show":
+			"https://cdn.sundei.eu/art/victorious-1.jpg"
+	};
+
+	// Valib sobiva kaane, kui lugu on lokaalne
+	$: localCover =
+		data?.track?.is_local && data.track.album.name
+			? localAlbumCovers[data.track.album.name]
+			: null;
+
 	onMount(() => {
 		fetchNowPlaying();
 		const id = setInterval(() => fetchNowPlaying(), 5000);
@@ -38,26 +54,18 @@
 </script>
 
 <div class="mt-4 flex rounded-full items-center bg-gray-900">
-	{#if data?.track?.album.images[0]?.url}
-		<object
-			data={data.track.album.images[0].url}
-			type="image/png"
-			class="w-20 h-20 rounded-xl shrink-0 bg-gray-800 text-gray-400 grid place-items-center"
-			aria-label="Album Art"
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				fill="currentColor"
-				class="w-6 h-6"
-			>
-				<path
-					fill-rule="evenodd"
-					d="M19.952 1.651a.75.75 0 01.298.599V16.303a3 3 0 01-2.176 2.884l-1.32.377a2.553 2.553 0 11-1.403-4.909l2.311-.66a1.5 1.5 0 001.088-1.442V6.994l-9 2.572v9.737a3 3 0 01-2.176 2.884l-1.32.377a2.553 2.553 0 11-1.402-4.909l2.31-.66a1.5 1.5 0 001.088-1.442V9.017 5.25a.75.75 0 01.544-.721l10.5-3a.75.75 0 01.658.122z"
-					clip-rule="evenodd"
-				/>
-			</svg>
-		</object>
+	{#if localCover}
+		<img
+			src={localCover}
+			alt="Local Album Art"
+			class="w-20 h-20 rounded-xl shrink-0 bg-gray-800 text-gray-400 object-cover"
+		/>
+	{:else if data?.track?.album.images[0]?.url}
+		<img
+			src={data.track.album.images[0].url}
+			alt="Album Art"
+			class="w-20 h-20 rounded-xl shrink-0 bg-gray-800 text-gray-400 object-cover"
+		/>
 	{:else}
 		<div
 			class="w-20 h-20 rounded-xl shrink-0 bg-gray-800 text-gray-400 grid place-items-center"
