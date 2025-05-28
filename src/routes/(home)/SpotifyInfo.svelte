@@ -10,6 +10,11 @@
 	let data: NowPlayingResponse | undefined;
 	let lastFetched = 0;
 
+	const localTrackLinks: Record<string, string> = {
+		"Faster than Boyz": "https://open.spotify.com/track/0powdVQEIZSaSnNupt2yPE?si=bfed3a9224cb458a"
+	};
+
+
 	// CDN albumikaante map
 	const localAlbumCovers: Record<string, string> = {
 		"Victorious 3.0: Even More Music From The Hit TV Show":
@@ -89,7 +94,7 @@
 		<p class="line-clamp-1 break-all text-gray-400">
 			{#if data?.track}
 				<a
-					href={data.track.external_urls.spotify}
+					href={data.track.is_local && localTrackLinks[data.track.name] ? localTrackLinks[data.track.name] : data.track.external_urls.spotify}
 					target="_blank"
 					rel="noopener noreferrer"
 					class="mr-1 text-white font-semibold border-b border-transparent transition hv:border-current"
