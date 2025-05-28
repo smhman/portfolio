@@ -55,6 +55,17 @@
 	$: artistsList = data?.track?.artists?.length === 1
 		? data.track.artists[0].name.split(";").map(a => a.trim())
 		: data?.track?.artists?.map(a => a.name) || [];
+	function getTrackLink(trackName: string): string {
+		const normalizedName = trackName.trim().toLowerCase();
+
+		for (const key in localTrackLinks) {
+			if (key.toLowerCase() === normalizedName) {
+			return localTrackLinks[key];
+			}
+		}
+		// Kui linki ei leia, siis tagasta Spotify ametlik link
+		return data.track.external_urls.spotify;
+	}
 	function clamp(t: number) {
 		return Math.max(Math.min(t, 1), 0);
 	}
@@ -103,7 +114,7 @@
 		<p class="line-clamp-1 break-all text-gray-400">
 			{#if data?.track}
 				<a
-  					href={getTrackLink(data.track.name) || data.track.external_urls.spotify}
+					href={getTrackLink(data.track.name)}
 					target="_blank"
 					rel="noopener noreferrer"
 					class="mr-1 text-white font-semibold border-b border-transparent transition hv:border-current"
