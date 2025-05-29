@@ -102,31 +102,27 @@
 		return state ? state.trim() : '';
 	}
 	function reformatDetails(activity) {
-		// Handle type 6 (custom status)
-		if (activity.type === 6) {
+		if (activity.type === 3) {
+			return `Watching ${activity.name}`;
+		}
+
+		// Fallbacks or other types handled here
+		if (activity.type === 6 && activity.details) {
 			return `Right now, I'm ${activity.details.trim()}`;
 		}
 
+		if (activity.name === 'YouTube' && activity.details?.startsWith('Searching for:') && activity.state) {
+			return `${activity.details.trim()} ${cleanState(activity.state)}`;
+		}
+
+		if (activity.name === 'YouTube' && activity.details?.startsWith('Viewing playlist:') && activity.state) {
+			return `${activity.details.trim()} ${cleanState(activity.state)}`;
+		}
+
 		if (activity.details) {
-			// Handle YouTube-specific cases like "Searching for:"
-			if (activity.name === 'Twitch' && activity.state) {
-            	const cleanedState = cleanState(activity.state);
-            	return `${activity.details.trim()} | ${cleanedState}`;
-        	}
-			if (activity.name === 'YouTube' && activity.details.startsWith('Searching for:') && activity.state) {
-				const cleanedState = cleanState(activity.state);
-				return `${activity.details.trim()} ${cleanedState}`;
-			}
-
-			// Handle other YouTube cases like "Viewing playlist:"
-			if (activity.name === 'YouTube' && activity.details.startsWith('Viewing playlist:') && activity.state) {
-				return `${activity.details.trim()} ${cleanState(activity.state)}`;
-			}
-
 			const lowerDetails = activity.details.toLowerCase();
-			let channelName = cleanState(activity.state) || "";
+			const channelName = cleanState(activity.state) || "";
 
-			// Specific checks for YouTube activity descriptions
 			if (lowerDetails.includes("browsing through all videos")) {
 				return `Browsing through ${channelName}'s videos`;
 			}
@@ -143,14 +139,14 @@
 				return `Viewing ${channelName}'s community posts`;
 			}
 
-			// Final fallback for general YouTube activity
-			if (activity.name === 'YouTube' && activity.details) {
+			if (activity.name === 'YouTube') {
 				return `${activity.details}${channelName ? ` | ${channelName}` : ''}`;
 			}
 		}
 
 		return activity.details || '';
 	}
+
 
 	function getActivityImage(activity) {
 		if (activity.type === 6 && activity.emoji && activity.emoji.id) {
@@ -275,7 +271,7 @@
 		overflow: hidden;
 		border-radius: 8px;
 	}
-	
+
 	.activity-image {
 		width: 100%;
 		height: 100%;
@@ -331,14 +327,14 @@
 						<p class="opacity-80 font-semibold">
 							{activity.name || "Unknown"}
 						</p>
-						<p class="opacity-80">
-							{#if reformatDetails(activity)}
-								{reformatDetails(activity)}
-							{/if}
-							{#if !shouldHideState(activity) && getDisplayText(activity)}
-								{getDisplayText(activity)}
-							{/if}
+						<p class="opacity-80 font-semibold">
+							{reformatDetails(activity)}
 						</p>
+
+						{#if activity.state && activity.state !== activity.name && activity.state !== activity.details}
+							<p class="opacity-80">{getDisplayText(activity)}</p>
+						{/if}
+
 						<p class="opacity-80">
 							{formatTime(activity)}
 							{#if activity.assets?.small_text && !(activity.state && (activity.state.toLowerCase() === 'idle' || activity.state.toLowerCase() === 'afk'))}
