@@ -325,12 +325,8 @@
 					{/if}
 					<div class="ml-4">
 						<p class="opacity-80 font-semibold">
-							{activity.name || "Unknown"}
-						</p>
-						<p class="opacity-80 font-semibold">
 							{reformatDetails(activity)}
 						</p>
-
 						{#if activity.state && activity.state !== activity.name && activity.state !== activity.details}
 							<p class="opacity-80">{getDisplayText(activity)}</p>
 						{/if}
