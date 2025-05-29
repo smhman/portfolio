@@ -272,11 +272,14 @@
 		position: relative;
 		width: 48px;
 		height: 48px;
+		overflow: hidden;
+		border-radius: 8px;
 	}
-
+	
 	.activity-image {
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
 		border-radius: 8px;
 	}
 
