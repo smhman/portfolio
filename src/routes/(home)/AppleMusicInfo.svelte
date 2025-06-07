@@ -17,9 +17,10 @@
 		return () => clearInterval(id);
 	});
 
-    async function load() {
-        const result = await fetchCiderNowPlaying('1113690068113170484');
+	async function load() {
+		const result = await fetchCiderNowPlaying('1113690068113170484');
 
+		// Check if we got a valid track
 		if (result && result.track?.name) {
 			lastAppleMusic.set(result);
 			data = result;
@@ -28,8 +29,8 @@
 			data = cached ? { ...cached, isPlayingNow: false } : null;
 		}
 
-        lastFetched = Date.now();
-    }
+		lastFetched = Date.now();
+	}
 
     function clamp(t: number) {
 	    return Math.max(Math.min(t, 1), 0);
