@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fetchCiderNowPlaying } from '$lib/fetchCiderNowPlaying';
 	import type { NowPlayingResponse } from '$lib/types';
 	import MusicalNote from '$lib/components/icons/MusicalNote.svelte';
 	import Pause from '$lib/components/icons/Pause.svelte';
@@ -18,21 +17,28 @@
 	});
 
 	async function load() {
-		const result = await fetchCiderNowPlaying('1113690068113170484');
+		try {
+			const res = await fetch('/api/now-playing/cider');
+			if (res.status === 204) {
+				const cached = get(lastAppleMusic);
+				data = cached ? { ...cached, isPlayingNow: false } : null;
+				return;
+			}
 
-		// 🧪 Debug output
-		//console.log('Cider Now:', result);
-		//console.log('Cached Apple:', get(lastAppleMusic));
+			const result = await res.json();
 
-		if (result && result.track?.name) {
-			lastAppleMusic.set(result);
-			data = result;
-		} else {
-			const cached = get(lastAppleMusic);
-			data = cached ? { ...cached, isPlayingNow: false } : null;
+			if (result && result.track?.name) {
+				lastAppleMusic.set(result);
+				data = result;
+			} else {
+				const cached = get(lastAppleMusic);
+				data = cached ? { ...cached, isPlayingNow: false } : null;
+			}
+			lastFetched = Date.now();
+		} catch (err) {
+			console.error('Apple music fetch failed:', err);
+			data = get(lastAppleMusic) ?? null;
 		}
-
-		lastFetched = Date.now();
 	}
 
     function clamp(t: number) {
