@@ -5,6 +5,8 @@
 	import MusicalNote from '$lib/components/icons/MusicalNote.svelte';
 	import Pause from '$lib/components/icons/Pause.svelte';
 	import Play from '$lib/components/icons/Play.svelte';
+    import { lastAppleMusic } from '$lib/stores';
+    import { get } from 'svelte/store';
 
 	let data: NowPlayingResponse | null = null;
 	let lastFetched = 0;
@@ -15,10 +17,24 @@
 		return () => clearInterval(id);
 	});
 
-	async function load() {
-		data = await fetchCiderNowPlaying('1113690068113170484');
-		lastFetched = Date.now();
-	}
+    async function load() {
+        const result = await fetchCiderNowPlaying('1113690068113170484');
+
+        if (result) {
+            data = result;
+            lastAppleMusic.set(result); // 🧠 Save it
+        } else {
+            const cached = get(lastAppleMusic);
+            if (cached) {
+                data = { ...cached, isPlayingNow: false }; // ✅ Use fallback
+            } else {
+                data = null; // nothing to show
+            }
+        }
+
+        lastFetched = Date.now();
+    }
+
     function clamp(t: number) {
 	    return Math.max(Math.min(t, 1), 0);
     }
@@ -58,12 +74,14 @@
 		<p class="flex items-center gap-1 text-sm text-gray-400">
 			<MusicalNote />
 			<span>
-				{#if data.isPlayingNow}
-					Listening Now (Apple Music)
-				{:else}
-					Last Played
-				{/if}
-			</span>
+                {#if data.isPlayingNow}
+                    Listening Now (Apple Music)
+                {:else if data}
+                    Last Played on Apple Music
+                {:else}
+                    Not Listening
+                {/if}
+            </span>
 		</p>
 	</div>
 
