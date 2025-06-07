@@ -9,7 +9,7 @@ export async function POST({ request }) {
 			Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({ value: JSON.stringify(data) }) // value must be stringified
+        body: JSON.stringify({ value: JSON.stringify(data) })
 	});
 
 	if (!res.ok) {
