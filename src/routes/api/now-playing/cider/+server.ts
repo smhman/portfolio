@@ -2,9 +2,6 @@ import { json } from '@sveltejs/kit';
 
 const DISCORD_ID = '1113690068113170484';
 
-// In-memory cache (persists while the server is running)
-let lastKnownTrack: any = null;
-
 function transformImageUrl(raw: string) {
 	const split = raw?.split('/https/');
 	if (split?.[1]) return `https://${split[1]}`;
@@ -31,51 +28,54 @@ export async function GET() {
 		const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
 		const { data } = await res.json();
 
-		const cider = data.activities?.find((a) =>
-			a.name.toLowerCase().includes('cider') && a.type === 2
+		const cider = data.activities?.find(
+			(a) => a.name.toLowerCase().includes('cider') && a.type === 2
 		);
 
-		if (cider) {
-			const track = cider.details;
-			const artist = cider.state?.replace(/^by /i, '') ?? 'Unknown Artist';
+		if (!cider) {
+			return json({ error: 'No Cider activity' }, { status: 204 });
+		}
 
-			const appleLink = await getAppleMusicLink(track, artist);
-			const albumArt = transformImageUrl(cider.assets?.large_image ?? '');
-			const duration = cider.timestamps?.end && cider.timestamps?.start
+		const track = cider.details;
+		const artist = cider.state?.replace(/^by /i, '') ?? 'Unknown Artist';
+		const appleLink = await getAppleMusicLink(track, artist);
+		const albumArt = transformImageUrl(cider.assets?.large_image ?? '');
+		const duration =
+			cider.timestamps?.end && cider.timestamps?.start
 				? cider.timestamps.end - cider.timestamps.start
 				: 0;
 
-			const payload = {
-				isPlayingNow: true,
-				isPaused: false,
-				progressMs: Date.now() - cider.timestamps.start,
-				track: {
-					name: track,
-					album: {
-						name: cider.assets?.large_text ?? 'Unknown Album',
-						images: albumArt ? [{ url: albumArt }] : []
-					},
-					artists: [{ name: artist }],
-					duration_ms: duration,
-					is_local: true,
-					external_urls: {
-						apple: appleLink,
-						spotify: null
-					}
+		const payload = {
+			isPlayingNow: true,
+			isPaused: false,
+			progressMs: Date.now() - cider.timestamps.start,
+			track: {
+				name: track,
+				album: {
+					name: cider.assets?.large_text ?? 'Unknown Album',
+					images: albumArt ? [{ url: albumArt }] : []
+				},
+				artists: [{ name: artist }],
+				duration_ms: duration,
+				is_local: true,
+				external_urls: {
+					apple: appleLink,
+					spotify: null
 				}
-			};
+			}
+		};
 
-			lastKnownTrack = payload;
-			return json(payload);
-		}
+		// ✅ Save latest to Redis
+		await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/set/last-cider`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ value: JSON.stringify(payload) })
+		});
 
-		// Fallback to cached last known track
-		if (lastKnownTrack) {
-			return json({ ...lastKnownTrack, isPlayingNow: false });
-		}
-
-		// Nothing to return
-		return json({ error: 'No Cider activity found' }, { status: 204 });
+		return json(payload);
 	} catch (err) {
 		console.error('[Cider] API failed:', err);
 		return json({ error: 'Server error' }, { status: 500 });

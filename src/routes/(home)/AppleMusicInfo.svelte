@@ -18,38 +18,26 @@
 
 	async function load() {
 		try {
-			// Fetch currently playing track from your API
-			const res = await fetch('/api/now-playing/cider');
-			const result = await res.json();
+			const res = await fetch('/api/now-playing/cider', { cache: 'no-store' });
 
-			if (result && result.track?.name) {
-				// Save result to local state
-				data = result;
-
-				// Save to Redis for fallback
-				await fetch('/api/now-playing/cider/save', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(result)
-				});
+			if (res.status === 200) {
+				data = await res.json();
 			} else {
-				// If nothing is playing, try to load last saved track from Redis
-				const saved = await fetch('/api/now-playing/cider/last');
-				if (saved.ok) {
-					data = await saved.json();
+				const fallback = await fetch('/api/now-playing/cider/last');
+				if (fallback.ok) {
+					data = await fallback.json();
 					data.isPlayingNow = false;
 				} else {
 					data = null;
 				}
 			}
 
-			// Store timestamp to calculate progress
 			lastFetched = Date.now();
 		} catch (err) {
 			console.error('Failed to load now playing:', err);
+			data = null;
 		}
 	}
-
 
     function clamp(t: number) {
 	    return Math.max(Math.min(t, 1), 0);
