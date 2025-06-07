@@ -10,7 +10,7 @@ export async function GET({ url }) {
 	const discordId = url.searchParams.get('id');
 	if (!discordId) return json({ error: 'Missing Discord ID' }, { status: 400 });
 
-	const res = await fetch(`https://api.lanyard.rest/v1/users/1113690068113170484`);
+	const res = await fetch(`https://api.lanyard.rest/v1/users/`);
 	const { data } = await res.json();
 
 	const cider = data.activities?.find((a) => a.name.toLowerCase().includes('cider') && a.type === 2);
