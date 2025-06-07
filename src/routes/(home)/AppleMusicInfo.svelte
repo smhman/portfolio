@@ -20,17 +20,13 @@
     async function load() {
         const result = await fetchCiderNowPlaying('1113690068113170484');
 
-        if (result) {
-            data = result;
-            lastAppleMusic.set(result); // 🧠 Save it
-        } else {
-            const cached = get(lastAppleMusic);
-            if (cached) {
-                data = { ...cached, isPlayingNow: false }; // ✅ Use fallback
-            } else {
-                data = null; // nothing to show
-            }
-        }
+		if (result && result.track?.name) {
+			lastAppleMusic.set(result);
+			data = result;
+		} else {
+			const cached = get(lastAppleMusic);
+			data = cached ? { ...cached, isPlayingNow: false } : null;
+		}
 
         lastFetched = Date.now();
     }
