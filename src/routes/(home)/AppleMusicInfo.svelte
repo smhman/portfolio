@@ -22,17 +22,16 @@
 
 			if (res.ok) {
 				const fresh = await res.json();
-				if (!data || fresh.track.name !== data.track.name) {
-					data = fresh;
+				data = fresh;
 
-					// Optional: Save to Redis
-					await fetch('/api/now-playing/cider/save', {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify(fresh)
-					});
-				}
-			} else {
+				// Optionally save to Redis
+				await fetch('/api/now-playing/cider/save', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(fresh)
+				});
+			} else if (res.status === 204 || res.status === 500) {
+				// Fallback if no data or internal server error
 				const fallback = await fetch('/api/now-playing/cider/last');
 				if (fallback.ok) {
 					const cached = await fallback.json();
@@ -41,15 +40,17 @@
 				} else {
 					data = null;
 				}
+			} else {
+				// Other unexpected responses
+				console.warn('Unhandled response status:', res.status);
+				data = null;
 			}
-
 			lastFetched = Date.now();
 		} catch (err) {
 			console.error('Failed to load now playing:', err);
 			data = null;
 		}
 	}
-
 
     function clamp(t: number) {
 	    return Math.max(Math.min(t, 1), 0);
