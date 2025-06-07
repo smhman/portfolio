@@ -13,5 +13,5 @@ export async function GET() {
 		return json({ error: 'No saved track' }, { status: 404 });
 	}
 
-	return json(JSON.parse(result.result));
+	return json(JSON.parse(result.result)); // ✅ properly parsed JSON object
 }

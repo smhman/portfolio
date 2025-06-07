@@ -12,25 +12,28 @@
 
 	onMount(() => {
 		load();
-		const id = setInterval(load, 100);
+		const id = setInterval(load, 1000);
 		return () => clearInterval(id);
 	});
 
 	async function load() {
 		try {
+			// Fetch currently playing track from your API
 			const res = await fetch('/api/now-playing/cider');
 			const result = await res.json();
 
 			if (result && result.track?.name) {
+				// Save result to local state
 				data = result;
-				// Save to Redis
+
+				// Save to Redis for fallback
 				await fetch('/api/now-playing/cider/save', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(result)
 				});
 			} else {
-				// Load from Redis
+				// If nothing is playing, try to load last saved track from Redis
 				const saved = await fetch('/api/now-playing/cider/last');
 				if (saved.ok) {
 					data = await saved.json();
@@ -39,11 +42,14 @@
 					data = null;
 				}
 			}
+
+			// Store timestamp to calculate progress
 			lastFetched = Date.now();
 		} catch (err) {
 			console.error('Failed to load now playing:', err);
 		}
 	}
+
 
     function clamp(t: number) {
 	    return Math.max(Math.min(t, 1), 0);
