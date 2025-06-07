@@ -12,7 +12,7 @@
 
 	onMount(() => {
 		load();
-		const id = setInterval(load, 1000);
+		const id = setInterval(load, 3000); // 3s instead of 1s for efficiency
 		return () => clearInterval(id);
 	});
 
@@ -20,13 +20,24 @@
 		try {
 			const res = await fetch('/api/now-playing/cider', { cache: 'no-store' });
 
-			if (res.status === 200) {
-				data = await res.json();
+			if (res.ok) {
+				const fresh = await res.json();
+				if (!data || fresh.track.name !== data.track.name) {
+					data = fresh;
+
+					// Optional: Save to Redis
+					await fetch('/api/now-playing/cider/save', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(fresh)
+					});
+				}
 			} else {
 				const fallback = await fetch('/api/now-playing/cider/last');
 				if (fallback.ok) {
-					data = await fallback.json();
-					data.isPlayingNow = false;
+					const cached = await fallback.json();
+					cached.isPlayingNow = false;
+					data = cached;
 				} else {
 					data = null;
 				}
@@ -38,6 +49,7 @@
 			data = null;
 		}
 	}
+
 
     function clamp(t: number) {
 	    return Math.max(Math.min(t, 1), 0);
