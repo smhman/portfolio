@@ -21,8 +21,8 @@
 		const result = await fetchCiderNowPlaying('1113690068113170484');
 
 		// 🧪 Debug output
-		console.log('Cider Now:', result);
-		console.log('Cached Apple:', get(lastAppleMusic));
+		//console.log('Cider Now:', result);
+		//console.log('Cached Apple:', get(lastAppleMusic));
 
 		if (result && result.track?.name) {
 			lastAppleMusic.set(result);

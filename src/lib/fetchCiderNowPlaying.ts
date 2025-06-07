@@ -5,7 +5,13 @@ async function getAppleMusicLink(trackName: string, artist: string): Promise<str
 	try {
 		const res = await fetch(url);
 		const json = await res.json();
-		return json.results?.[0]?.trackViewUrl || "https://music.apple.com";
+		const trackId = json.results?.[0]?.trackId;
+
+		if (trackId) {
+			return `https://music.apple.com/song/${trackId}`;
+		}
+
+		return "https://music.apple.com";
 	} catch (err) {
 		console.error('Apple Music lookup failed:', err);
 		return "https://music.apple.com";
@@ -24,7 +30,7 @@ export async function fetchCiderNowPlaying(discordId: string) {
 		);
 
 		if (!cider) {
-			console.log('[Cider] No Cider activity found');
+			//console.log('[Cider] No Cider activity found');
 			return null;
 		}
 
@@ -64,7 +70,7 @@ export async function fetchCiderNowPlaying(discordId: string) {
 			progressMs: Date.now() - cider.timestamps.start
 		};
 	} catch (e) {
-		console.error('[Cider] Failed to fetch now playing:', e);
+		//console.error('[Cider] Failed to fetch now playing:', e);
 		return null;
 	}
 }
