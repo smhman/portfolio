@@ -1,19 +1,20 @@
 import { json } from '@sveltejs/kit';
 
+const DISCORD_ID = '1113690068113170484';
+
 function transformImageUrl(raw: string) {
 	const split = raw?.split('/https/');
 	if (split?.[1]) return `https://${split[1]}`;
 	return raw;
 }
 
-export async function GET({ url }) {
-	const discordId = url.searchParams.get('id');
-	if (!discordId) return json({ error: 'Missing Discord ID' }, { status: 400 });
-
-	const res = await fetch(`https://api.lanyard.rest/v1/users/`);
+export async function GET() {
+	const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
 	const { data } = await res.json();
 
-	const cider = data.activities?.find((a) => a.name.toLowerCase().includes('cider') && a.type === 2);
+	const cider = data.activities?.find((a) =>
+		a.name.toLowerCase().includes('cider') && a.type === 2
+	);
 	if (!cider) return json({ error: 'No Cider activity found' }, { status: 204 });
 
 	const track = cider.details;
@@ -27,7 +28,7 @@ export async function GET({ url }) {
 			appleLink = `https://music.apple.com/song/${appleData.results[0].trackId}`;
 		}
 	} catch (e) {
-		console.warn('[Apple Lookup Failed]');
+		console.warn('[Apple Lookup Failed]', e);
 	}
 
 	const albumArt = transformImageUrl(cider.assets?.large_image ?? '');
