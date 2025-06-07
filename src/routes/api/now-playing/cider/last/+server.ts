@@ -13,8 +13,11 @@ export async function GET() {
 		return json({ error: 'No saved track' }, { status: 404 });
 	}
 
-	// 🔥 FIX: Unwrap the stringified JSON inside `result.result`
-	const parsed = JSON.parse(result.result);
+	// Step 1: Redis value is stringified JSON inside `value`
+	const outer = JSON.parse(result.result); // now: { value: "{...}" }
 
-	return json(parsed); // 👈 Now it's fully normal JSON
+	// Step 2: Unwrap the `value` string into real JSON
+	const final = JSON.parse(outer.value);
+
+	return json(final); // 👈 now it’s the clean JSON you want
 }

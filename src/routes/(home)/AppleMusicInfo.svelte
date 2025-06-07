@@ -12,7 +12,7 @@
 
 	onMount(() => {
 		load();
-		const id = setInterval(load, 3000); // 3s instead of 1s for efficiency
+		const id = setInterval(load, 1000); // 3s instead of 1s for efficiency
 		return () => clearInterval(id);
 	});
 
