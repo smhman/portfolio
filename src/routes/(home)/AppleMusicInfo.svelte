@@ -20,7 +20,10 @@
 	async function load() {
 		const result = await fetchCiderNowPlaying('1113690068113170484');
 
-		// Check if we got a valid track
+		// 🧪 Debug output
+		console.log('Cider Now:', result);
+		console.log('Cached Apple:', get(lastAppleMusic));
+
 		if (result && result.track?.name) {
 			lastAppleMusic.set(result);
 			data = result;
