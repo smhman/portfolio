@@ -19,25 +19,29 @@
 	async function load() {
 		try {
 			const res = await fetch('/api/now-playing/cider');
-			if (res.status === 204) {
-				const cached = get(lastAppleMusic);
-				data = cached ? { ...cached, isPlayingNow: false } : null;
-				return;
-			}
-
 			const result = await res.json();
 
 			if (result && result.track?.name) {
-				lastAppleMusic.set(result);
 				data = result;
+				// Save to Redis
+				await fetch('/api/now-playing/cider/save', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(result)
+				});
 			} else {
-				const cached = get(lastAppleMusic);
-				data = cached ? { ...cached, isPlayingNow: false } : null;
+				// Load from Redis
+				const saved = await fetch('/api/now-playing/cider/last');
+				if (saved.ok) {
+					data = await saved.json();
+					data.isPlayingNow = false;
+				} else {
+					data = null;
+				}
 			}
 			lastFetched = Date.now();
 		} catch (err) {
-			console.error('Apple music fetch failed:', err);
-			data = get(lastAppleMusic) ?? null;
+			console.error('Failed to load now playing:', err);
 		}
 	}
 
