@@ -4,6 +4,7 @@
 	import DiscordInfo2 from './DiscordInfo2.svelte';
 	import SocialLink from './SocialLink.svelte';
 	import SpotifyInfo from './SpotifyInfo.svelte';
+	import AppleMusicInfo from './AppleMusicInfo.svelte';
 	import Weather from './Weather.svelte';
 
 	import GitHub from '$lib/components/icons/GitHub.svelte';
@@ -57,6 +58,7 @@
 
 	<DiscordInfo />
 	<SpotifyInfo />
+	<AppleMusicInfo />
 	<DiscordInfo2 />
 
 <!--<p class="mt-4 mb-4 text-gray-400">
