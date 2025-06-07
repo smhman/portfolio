@@ -22,16 +22,28 @@
 
 			if (res.ok) {
 				const fresh = await res.json();
-				data = fresh;
 
-				// Optionally save to Redis
-				await fetch('/api/now-playing/cider/save', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(fresh)
-				});
+				// Detect change via name + album + duration
+				const isSameTrack =
+					data &&
+					data.track.name === fresh.track.name &&
+					data.track.album.name === fresh.track.album.name &&
+					data.track.duration_ms === fresh.track.duration_ms;
+
+				if (!isSameTrack) {
+					data = fresh;
+
+					// Fire and forget – don't block UI
+					fetch('/api/now-playing/cider/save', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(fresh)
+					});
+				} else {
+					// still reassign to trigger reactivity
+					data = fresh;
+				}
 			} else if (res.status === 204 || res.status === 500) {
-				// Fallback if no data or internal server error
 				const fallback = await fetch('/api/now-playing/cider/last');
 				if (fallback.ok) {
 					const cached = await fallback.json();
@@ -41,7 +53,6 @@
 					data = null;
 				}
 			} else {
-				// Other unexpected responses
 				console.warn('Unhandled response status:', res.status);
 				data = null;
 			}

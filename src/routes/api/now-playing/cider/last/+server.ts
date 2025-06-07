@@ -13,11 +13,16 @@ export async function GET() {
 		return json({ error: 'No saved track' }, { status: 404 });
 	}
 
-	// Step 1: Redis value is stringified JSON inside `value`
-	const outer = JSON.parse(result.result); // now: { value: "{...}" }
+	// ✅ result.result is a JSON string
+	let parsed;
+	if (typeof result.result === 'string') {
+		// case: JSON string stored in Redis
+		const outer = JSON.parse(result.result); // { value: '{...}' }
+		parsed = typeof outer.value === 'string' ? JSON.parse(outer.value) : outer.value;
+	} else {
+		// case: already object (in dev/testing)
+		parsed = result.result;
+	}
 
-	// Step 2: Unwrap the `value` string into real JSON
-	const final = JSON.parse(outer.value);
-
-	return json(final); // 👈 now it’s the clean JSON you want
+	return json(parsed); // 👈 returns clean JSON to frontend
 }
