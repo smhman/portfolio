@@ -67,7 +67,7 @@
 
 	function shouldDisplayActivity(activity) {
 		const excludedTypes = [4];
-		const excludedNames = ['Custom Status', 'Spotify'];
+		const excludedNames = ['Custom Status', 'Spotify', 'Cider'];
 
 		return !excludedTypes.includes(activity.type) && !excludedNames.includes(activity.name);
 	}
