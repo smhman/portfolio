@@ -13,12 +13,5 @@ export async function GET() {
 		return json({ error: 'No saved track' }, { status: 404 });
 	}
 
-	try {
-		// 👇 This is the fix: parse the JSON string inside "result.result"
-		const parsed = JSON.parse(result.result);
-		return json(parsed);
-	} catch (e) {
-		console.error('[Redis Parse Error]', e);
-		return json({ error: 'Corrupted cached data' }, { status: 500 });
-	}
+	return json(result.result); // ✅ no need to parse further
 }
