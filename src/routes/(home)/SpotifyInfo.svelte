@@ -75,9 +75,8 @@
 		"Matt Bennett": "https://open.spotify.com/artist/0D9NxxLyD8hXkZQM1WXoWU",
 		"Victorious Cast": "https://open.spotify.com/artist/1KYszkVzlhV3rAqmAcYIgd"
 	};
-	$: artistsList = data?.track?.artists?.length === 1
-		? data.track.artists[0].name.split(";").map(a => a.trim())
-		: data?.track?.artists?.map(a => a.name) || [];
+	
+	$: artistsList = data?.track?.artists || [];
 	function getTrackLink(trackName: string): string {
 		const normalizedName = trackName.trim().toLowerCase();
 
@@ -147,13 +146,13 @@
 
 				{#each artistsList as artist, i}
 					<a
-						href={localArtistLinks[artist] || "#"}
+						href={localArtistLinks[artist.name] || artist.external_urls?.spotify || "#"}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="border-b border-transparent transition hv:border-current"
+						class="border-b border-transparent transition hover:border-current"
 					>
-						{artist}{i < artistsList.length - 1 ? "," : ""}
-					</a>{i < artistsList.length - 1 ? " " : ""}
+						{artist.name}{i < artistsList.length - 1 ? "," : ""}
+					</a>
 				{/each}
 			{:else}
 				Not Listening to Anything
