@@ -13,5 +13,8 @@ export async function GET() {
 		return json({ error: 'No saved track' }, { status: 404 });
 	}
 
-	return json(result.result); // ✅ no need to parse further
+	// 🔥 FIX: Unwrap the stringified JSON inside `result.result`
+	const parsed = JSON.parse(result.result);
+
+	return json(parsed); // 👈 Now it's fully normal JSON
 }
