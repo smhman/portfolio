@@ -23,4 +23,20 @@ export const fastNow = readable(new Date(), set => {
 	return () => cancelAnimationFrame(id);
 });
 
-export const lastAppleMusic = writable<NowPlayingResponse | null>(null);
+const stored = typeof localStorage !== 'undefined'
+  ? localStorage.getItem('lastAppleMusic')
+  : null;
+
+export const lastAppleMusic = writable<NowPlayingResponse | null>(
+  stored ? JSON.parse(stored) : null
+);
+
+lastAppleMusic.subscribe((value) => {
+  if (typeof localStorage !== 'undefined') {
+    if (value) {
+      localStorage.setItem('lastAppleMusic', JSON.stringify(value));
+    } else {
+      localStorage.removeItem('lastAppleMusic');
+    }
+  }
+});
