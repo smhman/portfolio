@@ -11,7 +11,7 @@
 
 	onMount(() => {
 		load();
-		const id = setInterval(load, 5000);
+		const id = setInterval(load, 100);
 		return () => clearInterval(id);
 	});
 
