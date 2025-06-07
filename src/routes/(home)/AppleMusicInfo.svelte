@@ -57,8 +57,8 @@
 
 	<div class="pl-4 py-2 pr-4 relative">
 		<p class="line-clamp-1 break-all text-gray-400">
-			<a
-				href="https://music.apple.com"
+            <a
+                href={data.track.external_urls.apple}
 				target="_blank"
 				class="mr-1 text-white font-semibold border-b border-transparent hover:border-current"
 			>
