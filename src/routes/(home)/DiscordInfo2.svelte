@@ -154,8 +154,9 @@
 		}
 
 		// Handle osu! specific large image
-		if (activity.name === 'osu!' && activity.application_id && activity.assets?.large_image) {
-			return getDiscordAppImageUrl(activity.application_id, activity.assets.large_image);
+		if (activity.name === 'osu!') {
+			// Force custom osu! logo override
+			return 'https://cdn.discordapp.com/app-assets/1216669957799018608/1252834872297259048.png';
 		}
 
 		// Handle general large images from assets
