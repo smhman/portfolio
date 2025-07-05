@@ -323,12 +323,17 @@ function getDisplayText(activity) {
 							</div>
 						{/if}
 						<div class="ml-4">
-							<p class="opacity-80 font-semibold">
-								{reformatDetails(activity)}
-							</p>
-							{#if activity.state && activity.state !== activity.name && activity.state !== activity.details && !reformatDetails(activity).includes(cleanState(activity.state))}
-								<p class="opacity-80">{getDisplayText(activity)}</p>
-							{/if}
+<p class="opacity-80 font-semibold">
+   {reformatDetails(activity)}
+</p>
+{#if activity.details && activity.state && !reformatDetails(activity).includes(cleanState(activity.state))}
+   <p class="opacity-80">{activity.details} | {cleanState(activity.state)}</p>
+{:else if activity.details && !reformatDetails(activity).includes(activity.details)}
+   <p class="opacity-80">{activity.details}</p>
+{:else if activity.state && !reformatDetails(activity).includes(cleanState(activity.state))}
+   <p class="opacity-80">{cleanState(activity.state)}</p>
+{/if}
+
 
 							<p class="opacity-80">
 								{#if activity.assets?.small_text && !(activity.state && (activity.state.toLowerCase() === 'idle' || activity.state.toLowerCase() === 'afk'))}
