@@ -101,51 +101,60 @@
 		}
 		return state ? state.trim() : '';
 	}
-	function reformatDetails(activity) {
-		if (activity.type === 3) {
-			return `Watching ${activity.name}`;
-		}
-
-		// Fallbacks or other types handled here
-		if (activity.type === 6 && activity.details) {
-			return `Right now, I'm ${activity.details.trim()}`;
-		}
-
-		if (activity.name === 'YouTube' && activity.details?.startsWith('Searching for:') && activity.state) {
-			return `${activity.details.trim()} ${cleanState(activity.state)}`;
-		}
-
-		if (activity.name === 'YouTube' && activity.details?.startsWith('Viewing playlist:') && activity.state) {
-			return `${activity.details.trim()} ${cleanState(activity.state)}`;
-		}
-
-		if (activity.details) {
-			const lowerDetails = activity.details.toLowerCase();
-			const channelName = cleanState(activity.state) || "";
-
-			if (lowerDetails.includes("browsing through all videos")) {
-				return `Browsing through ${channelName}'s videos`;
-			}
-			if (lowerDetails.includes("browsing through latest videos")) {
-				return `Browsing through ${channelName}'s latest videos`;
-			}
-			if (lowerDetails.includes("browsing through playlists")) {
-				return `Browsing through ${channelName}'s playlists`;
-			}
-			if (lowerDetails.includes("viewing channel")) {
-				return `Viewing ${channelName}'s channel`;
-			}
-			if (lowerDetails.includes("viewing community posts")) {
-				return `Viewing ${channelName}'s community posts`;
-			}
-
-			if (activity.name === 'YouTube') {
-				return `${activity.details}${channelName ? ` | ${channelName}` : ''}`;
-			}
-		}
-
-		return activity.details || '';
+function reformatDetails(activity) {
+	// Watching something generic (Discord type 3)
+	if (activity.type === 3) {
+		return `Watching ${activity.name}`;
 	}
+
+	// Type 6 (like a game)
+	if (activity.type === 6 && activity.details) {
+		return `Right now, I'm ${activity.details.trim()}`;
+	}
+
+	// YouTube special cases
+	if (activity.name === 'YouTube') {
+		// Known "Searching" / "Viewing playlist" patterns
+		if (activity.details?.startsWith('Searching for:') && activity.state) {
+			return `${activity.details.trim()} ${cleanState(activity.state)}`;
+		}
+
+		if (activity.details?.startsWith('Viewing playlist:') && activity.state) {
+			return `${activity.details.trim()} ${cleanState(activity.state)}`;
+		}
+
+		// Otherwise, just return the details directly
+		if (activity.details) {
+			return activity.details.trim();
+		}
+	}
+
+	// Other special cases
+	if (activity.details) {
+		const lowerDetails = activity.details.toLowerCase();
+		const channelName = cleanState(activity.state) || "";
+
+		if (lowerDetails.includes("browsing through all videos")) {
+			return `Browsing through ${channelName}'s videos`;
+		}
+		if (lowerDetails.includes("browsing through latest videos")) {
+			return `Browsing through ${channelName}'s latest videos`;
+		}
+		if (lowerDetails.includes("browsing through playlists")) {
+			return `Browsing through ${channelName}'s playlists`;
+		}
+		if (lowerDetails.includes("viewing channel")) {
+			return `Viewing ${channelName}'s channel`;
+		}
+		if (lowerDetails.includes("viewing community posts")) {
+			return `Viewing ${channelName}'s community posts`;
+		}
+	}
+
+	// Default fallback
+	return activity.details || '';
+}
+
 
 
 	function getActivityImage(activity) {
