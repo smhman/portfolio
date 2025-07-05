@@ -326,15 +326,15 @@ function getDisplayText(activity) {
 							<p class="opacity-80 font-semibold">
 								{reformatDetails(activity)}
 							</p>
-							{#if activity.state && activity.state !== activity.name && activity.state !== activity.details}
+							{#if activity.state && activity.state !== activity.name && activity.state !== activity.details && !reformatDetails(activity).includes(cleanState(activity.state))}
 								<p class="opacity-80">{getDisplayText(activity)}</p>
 							{/if}
 
 							<p class="opacity-80">
-								{formatTime(activity)}
 								{#if activity.assets?.small_text && !(activity.state && (activity.state.toLowerCase() === 'idle' || activity.state.toLowerCase() === 'afk'))}
-									| {activity.assets.small_text}
+									{activity.assets.small_text} | 
 								{/if}
+								{formatTime(activity)}
 							</p>
 						</div>
 					</div>
