@@ -336,10 +336,10 @@ function reformatDetails(activity) {
 					<div class="ml-4">
 						<p class="opacity-80 font-semibold">
 							{reformatDetails(activity)}
+							{#if activity.state && activity.state !== activity.name && activity.state !== activity.details}
+								&nbsp;|&nbsp;{getDisplayText(activity)}
+							{/if}
 						</p>
-						{#if activity.state && activity.state !== activity.name && activity.state !== activity.details}
-							<p class="opacity-80">{getDisplayText(activity)}</p>
-						{/if}
 
 						<p class="opacity-80">
 							{formatTime(activity)}
