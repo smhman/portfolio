@@ -25,7 +25,7 @@
 
 	onMount(() => {
 		interval = setInterval(() => {
-			now = new Date(); // Update `now` to trigger reactivity
+			now = new Date();
 		}, 50);
 	});
 
@@ -68,7 +68,6 @@
 	function shouldDisplayActivity(activity) {
 		const excludedTypes = [4];
 		const excludedNames = ['Custom Status', 'Spotify', 'Cider'];
-
 		return !excludedTypes.includes(activity.type) && !excludedNames.includes(activity.name);
 	}
 
@@ -82,112 +81,69 @@
 
 	function getLocalLogo(activityName) {
 		const cdnBaseUrl = "https://cdn.sundei.eu/images/website/";
-		
 		const logoMap = {
 			"Growtopia": `${cdnBaseUrl}growtopia.jpg`,
 			"Counter-Strike 2": `${cdnBaseUrl}CounterStrike.png`
 		};
-
 		return logoMap[activityName] || null;
 	}
 
 	function cleanState(state) {
-		// Remove unnecessary parts like "custom" from the state
-		if (state && state.toLowerCase().includes("custom")) {
+		if (state?.toLowerCase().includes("custom")) {
 			return state.replace(/custom/i, "").trim();
 		}
-		if (state && state.toLowerCase().includes("of channel:")) {
+		if (state?.toLowerCase().includes("of channel:")) {
 			return state.replace(/of channel:/i, "").trim();
 		}
 		return state ? state.trim() : '';
 	}
+
 	function reformatDetails(activity) {
 		if (activity.type === 3) {
 			return `Watching ${activity.name}`;
 		}
 
-		// Fallbacks or other types handled here
 		if (activity.type === 6 && activity.details) {
 			return `Right now, I'm ${activity.details.trim()}`;
 		}
 
-		if (activity.name === 'YouTube' && activity.details?.startsWith('Searching for:') && activity.state) {
-			return `${activity.details.trim()} ${cleanState(activity.state)}`;
-		}
-
-		if (activity.name === 'YouTube' && activity.details?.startsWith('Viewing playlist:') && activity.state) {
-			return `${activity.details.trim()} ${cleanState(activity.state)}`;
-		}
-
+		// For YouTube or any other activity with details, just return the details
 		if (activity.details) {
-			const lowerDetails = activity.details.toLowerCase();
-			const channelName = cleanState(activity.state) || "";
-
-			if (lowerDetails.includes("browsing through all videos")) {
-				return `Browsing through ${channelName}'s videos`;
-			}
-			if (lowerDetails.includes("browsing through latest videos")) {
-				return `Browsing through ${channelName}'s latest videos`;
-			}
-			if (lowerDetails.includes("browsing through playlists")) {
-				return `Browsing through ${channelName}'s playlists`;
-			}
-			if (lowerDetails.includes("viewing channel")) {
-				return `Viewing ${channelName}'s channel`;
-			}
-			if (lowerDetails.includes("viewing community posts")) {
-				return `Viewing ${channelName}'s community posts`;
-			}
-
-			if (activity.name === 'YouTube') {
-				return `${activity.details}${channelName ? ` | ${channelName}` : ''}`;
-			}
+			return activity.details.trim();
 		}
 
-		return activity.details || '';
+		return '';
 	}
 
-
 	function getActivityImage(activity) {
-		if (activity.type === 6 && activity.emoji && activity.emoji.id) {
+		if (activity.type === 6 && activity.emoji?.id) {
 			return getEmojiUrl(activity.emoji.id);
 		}
 
-		// Handle osu! specific large image
 		if (activity.name === 'osu!') {
-			// Force custom osu! logo override
 			return 'https://cdn.discordapp.com/app-assets/1216669957799018608/1252834872297259048.png';
 		}
 
-		// Handle general large images from assets
-		if (activity.assets?.large_image && activity.assets.large_image.includes('https')) {
+		if (activity.assets?.large_image?.includes('https')) {
 			return transformImageUrl(activity.assets.large_image);
 		}
 
-		// Fallback to application-specific image if available
 		if (activity.application_id && activity.assets?.large_image) {
 			return getDiscordAppImageUrl(activity.application_id, activity.assets.large_image);
 		}
 
-		// Use local logos if available
-		if (getLocalLogo(activity.name)) {
-			return getLocalLogo(activity.name);
-		}
-
-		return null;
+		return getLocalLogo(activity.name);
 	}
+
 	function getActivitySmallImage(activity) {
-		// Handle osu! specific small image
 		if (activity.name === 'osu!' && activity.application_id && activity.assets?.small_image) {
 			return getDiscordAppImageUrl(activity.application_id, activity.assets.small_image);
 		}
 
-		// Handle general small images from assets
-		if (activity.assets?.small_image && activity.assets.small_image.includes('https')) {
+		if (activity.assets?.small_image?.includes('https')) {
 			return transformImageUrl(activity.assets.small_image);
 		}
 
-		// Fallback to application-specific small image if available
 		if (activity.application_id && activity.assets?.small_image) {
 			return getDiscordAppImageUrl(activity.application_id, activity.assets.small_image);
 		}
@@ -217,9 +173,7 @@
 		if (activity.details && activity.state) {
 			const reformattedDetails = reformatDetails(activity);
 			const cleanedState = cleanState(activity.state);
-			if (reformattedDetails.toLowerCase().includes(cleanedState.toLowerCase())) {
-				return true;
-			}
+			return reformattedDetails.toLowerCase().includes(cleanedState.toLowerCase());
 		}
 		return false;
 	}
@@ -234,31 +188,20 @@
 
 	function getDisplayText(activity) {
 		if (activity.name === 'osu!') {
-			if (activity.state && activity.state.toLowerCase() === 'clicking circles') {
-				return `| ${activity.state}`;
-			}
-
 			const rank = activity.assets?.large_text || '';
 			const state = activity.state || '';
-
 			if (rank && state) {
 				return `${rank} | ${state}`;
 			}
 			return rank || state;
 		} else {
-			// Handle cases like "Searching for: | mis minuga saab"
 			const state = activity.state?.trim() || '';
-			
-			// If the state includes "Searching for:", remove the trailing pipe if there's nothing after it
 			if (state.startsWith('Searching for:')) {
 				return state.replace(/\|\s*$/, '');
 			}
-
-			// If state is just the pipe or similar, return an empty string
 			if (state === '|') {
 				return '';
 			}
-
 			return state;
 		}
 	}
