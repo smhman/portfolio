@@ -210,7 +210,7 @@
 				}
 			}
 
-			return uniqueActivities;
+			return uniqueActivities;	
 		}
 
 		function getDiscordAppImageUrl(applicationId, imageId) {
@@ -221,36 +221,37 @@
 			return `https://cdn.discordapp.com/emojis/${emojiId}.png`;
 		}
 
-		function getDisplayText(activity) {
-			if (activity.name === 'osu!') {
-				if (activity.state && activity.state.toLowerCase() === 'clicking circles') {
-					return `| ${activity.state}`;
-				}
+function getDisplayText(activity) {
+	if (activity.name === 'osu!') {
+		const state = activity.state || '';
+		const rank = activity.assets?.large_text || '';
 
-				const rank = activity.assets?.large_text || '';
-				const state = activity.state || '';
-
-				if (rank && state) {
-					return `${rank} | ${state}`;
-				}
-				return rank || state;
-			} else {
-				// Handle cases like "Searching for: | mis minuga saab"
-				const state = activity.state?.trim() || '';
-				
-				// If the state includes "Searching for:", remove the trailing pipe if there's nothing after it
-				if (state.startsWith('Searching for:')) {
-					return state.replace(/\|\s*$/, '');
-				}
-
-				// If state is just the pipe or similar, return an empty string
-				if (state === '|') {
-					return '';
-				}
-
-				return state;
-			}
+		if (state.toLowerCase() === 'clicking circles') {
+			return `| ${state}`;
 		}
+
+		if (rank && state) {
+			return `${rank} | ${state}`;
+		}
+
+		return rank || state;
+	}
+
+	const state = activity.state?.trim() || '';
+
+	// Clean up cases where state might be something like "Searching for: |"
+	if (state.startsWith('Searching for:')) {
+		return state.replace(/\|\s*$/, '').trim();
+	}
+
+	// Remove lone pipes
+	if (state === '|') {
+		return '';
+	}
+
+	return state;
+}
+
 	</script>
 
 	<style>
