@@ -269,6 +269,7 @@ function getDisplayText(activity) {
 			height: 48px;
 			overflow: hidden;
 			border-radius: 8px;
+			flex-shrink: 0;
 		}
 
 		.activity-image {
