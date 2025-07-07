@@ -324,7 +324,15 @@ function getDisplayText(activity) {
 						{/if}
 
 						<div class="ml-4">
-							<p class="opacity-80 font-semibold">{activity.name}</p>
+							<p class="opacity-80 font-semibold">
+								{#if activity.type === 3}
+									Watching {activity.name}
+								{:else if activity.type === 0}
+									Playing {activity.name}
+								{:else}
+									{activity.name}
+								{/if}
+							</p>
 
 							{#if activity.name === 'osu!'}
 								<p class="opacity-80">
