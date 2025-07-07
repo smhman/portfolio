@@ -322,22 +322,26 @@ function getDisplayText(activity) {
 								</div>
 							</div>
 						{/if}
-						<div class="ml-4">
-<p class="opacity-80 font-semibold">
-   {reformatDetails(activity)}
-</p>
-{#if activity.details && activity.state && !reformatDetails(activity).includes(cleanState(activity.state))}
-   <p class="opacity-80">{activity.details} | {cleanState(activity.state)}</p>
-{:else if activity.details && !reformatDetails(activity).includes(activity.details)}
-   <p class="opacity-80">{activity.details}</p>
-{:else if activity.state && !reformatDetails(activity).includes(cleanState(activity.state))}
-   <p class="opacity-80">{cleanState(activity.state)}</p>
-{/if}
 
+						<div class="ml-4">
+							<p class="opacity-80 font-semibold">{activity.name}</p>
+
+							{#if activity.name === 'osu!'}
+								<p class="opacity-80">{activity.assets?.large_text || ''}{activity.assets?.large_text && activity.state ? ' | ' : ''}{activity.state || ''}</p>
+							{:else if activity.details || activity.state}
+								<p class="opacity-80">
+									{activity.details}
+									{#if activity.details && activity.state && !activity.details.includes(activity.state)}
+										{" | "}{cleanState(activity.state)}
+									{:else if !activity.details && activity.state}
+										{cleanState(activity.state)}
+									{/if}
+								</p>
+							{/if}
 
 							<p class="opacity-80">
 								{#if activity.assets?.small_text && !(activity.state && (activity.state.toLowerCase() === 'idle' || activity.state.toLowerCase() === 'afk'))}
-									{activity.assets.small_text} | 
+									{activity.assets.small_text} |
 								{/if}
 								{formatTime(activity)}
 							</p>
