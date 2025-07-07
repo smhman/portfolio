@@ -327,15 +327,17 @@ function getDisplayText(activity) {
 							<p class="opacity-80 font-semibold">{activity.name}</p>
 
 							{#if activity.name === 'osu!'}
-								<p class="opacity-80">{activity.assets?.large_text || ''}{activity.assets?.large_text && activity.state ? ' | ' : ''}{activity.state || ''}</p>
+								<p class="opacity-80">
+									{activity.assets?.large_text || ''}
+									{(activity.assets?.large_text && activity.state) ? ' | ' : ''}
+									{activity.state || ''}
+									{(activity.details && activity.details !== activity.state) ? ' | ' + activity.details.replace(/\s*\[.*?\]/g, '').trim() : ''}
+								</p>
 							{:else if activity.details || activity.state}
 								<p class="opacity-80">
-									{activity.details}
-									{#if activity.details && activity.state && !activity.details.includes(activity.state)}
-										{" | "}{cleanState(activity.state)}
-									{:else if !activity.details && activity.state}
-										{cleanState(activity.state)}
-									{/if}
+									{activity.details || ''}
+									{(activity.details && activity.state) ? ' | ' : ''}
+									{activity.state || ''}
 								</p>
 							{/if}
 
