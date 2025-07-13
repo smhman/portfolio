@@ -71,5 +71,12 @@
     <iframe title="Katarsis - Tavo akys | Spotify" src="https://open.spotify.com/embed/track/1imPa2lzxmLKggLCpkBAoo" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 </div>
 
+<a href="https://osu.ppy.sh/u/ScissorLuv" target="_blank">
+  <img 
+    src="https://osu-sig.vercel.app/card?user=ScissorLuv&mode=std&lang=en&round_avatar=true&animation=true&hue=125" 
+    alt="ScissorLuv osu! stats"
+    style="max-width: 100%; height: auto; border-radius: 12px;"
+  />
+</a>
 			
 </main>
