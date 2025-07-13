@@ -61,13 +61,8 @@
 	<AppleMusicInfo />
 	<DiscordInfo2 />
 
-<!--<p class="mt-4 mb-4 text-gray-400">
-	Currently, my favorite album is <span class="text-violet-800"><b>&ldquo;&rdquo;</b></span> by <span class="text-blue-800"><b></b></span>. My favourite song from the album is <span class="text-rose-400">&ldquo;<b>&rdquo;</b></span>.
-</p>-->
-<p>
-	
 <!-- Wrapper container to align both cards visually -->
-<div style="max-width: 420px; margin: 0 auto; padding: 10px; font-family: sans-serif;">
+<div style="margin: 20px auto; font-family: sans-serif;">
   
   <!-- Spotify card -->
   <div style="margin-bottom: 20px; border-radius: 13px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
