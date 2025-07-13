@@ -62,21 +62,36 @@
 	<DiscordInfo2 />
 
 <!--<p class="mt-4 mb-4 text-gray-400">
-	Currently, my favorite album is <span class="text-violet-800"><b>&ldquo;ALIKA&rdquo;</b></span> by <span class="text-blue-800"><b>ALIKA</b></span>. My favourite song from the album is <span class="text-rose-400">&ldquo;<b>Ты Расскажи Мне&rdquo;</b></span>.
+	Currently, my favorite album is <span class="text-violet-800"><b>&ldquo;&rdquo;</b></span> by <span class="text-blue-800"><b></b></span>. My favourite song from the album is <span class="text-rose-400">&ldquo;<b>&rdquo;</b></span>.
 </p>-->
 <p>
 	
-</p>
-<div style="margin-top: 20px; border-radius: 13px; overflow: hidden;">
-    <iframe title="Katarsis - Tavo akys | Spotify" src="https://open.spotify.com/embed/track/1imPa2lzxmLKggLCpkBAoo" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<!-- Wrapper container to align both cards visually -->
+<div style="max-width: 420px; margin: 0 auto; padding: 10px; font-family: sans-serif;">
+  
+  <!-- Spotify card -->
+  <div style="margin-bottom: 20px; border-radius: 13px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+    <iframe title="Victoria Justice - Treat Myself | Spotify" 
+            src="https://open.spotify.com/embed/track/1KduF4t7FmMPKbu8U5GvsI" 
+            width="100%" 
+            height="152" 
+            frameborder="0" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+    </iframe>
+  </div>
+
+  <!-- osu! card -->
+  <a href="https://osu.ppy.sh/u/ScissorLuv" target="_blank" 
+     style="display: block; border-radius: 13px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+    <img 
+      src="https://osu-sig.vercel.app/card?user=ScissorLuv&mode=std&lang=en&round_avatar=true&animation=true&hue=125" 
+      alt="ScissorLuv osu! stats"
+      style="width: 100%; height: auto; display: block;"
+    />
+  </a>
+
 </div>
 
-<a href="https://osu.ppy.sh/u/ScissorLuv" target="_blank">
-  <img 
-    src="https://osu-sig.vercel.app/card?user=ScissorLuv&mode=std&lang=en&round_avatar=true&animation=true&hue=125" 
-    alt="ScissorLuv osu! stats"
-    style="max-width: 100%; height: auto; border-radius: 12px;"
-  />
-</a>
 			
 </main>
