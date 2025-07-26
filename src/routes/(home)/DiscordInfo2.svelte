@@ -337,10 +337,13 @@ function reformatDetails(activity) {
 
 							{#if activity.name === 'osu!(lazer)'}
 								<p class="opacity-80">
-									{activity.assets?.large_text || ''}
-									{(activity.assets?.large_text && activity.state) ? ' | ' : ''}
-									{activity.state || ''}
-									{(activity.details && activity.details !== activity.state) ? ' | ' + activity.details.replace(/\s*\[.*?\]/g, '').trim() : ''}
+									{activity.assets?.large_text?.split(' (')[0] || 'osu!player'}
+									{#if activity.details}
+										| {activity.details.replace(/\s*\[.*?\]/g, '').trim()}
+									{/if}
+								</p>
+								<p class="opacity-80">
+									{activity.state || 'Clicking circles'} | {formatTime(activity)}
 								</p>
 							{:else if activity.details || activity.state}
 								<p class="opacity-80">
