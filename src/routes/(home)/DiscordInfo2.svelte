@@ -207,18 +207,25 @@ function reformatDetails(activity) {
 			const uniqueActivities = [];
 			const seenNames = new Set();
 
+			const hasOsuLazer = activities.some(activity => activity.name === 'osu!(lazer)');
+
 			for (const activity of activities) {
+				// Skip osu! if osu!(lazer) is also running
+				if (hasOsuLazer && activity.name === 'osu!') continue;
+
+				// Avoid SoundCloud duplicates
 				if (activity.name === 'SoundCloud') {
 					if (!seenNames.has('SoundCloud')) {
 						seenNames.add('SoundCloud');
 						uniqueActivities.push(activity);
 					}
-				} else {
-					uniqueActivities.push(activity);
+					continue;
 				}
+
+				uniqueActivities.push(activity);
 			}
 
-			return uniqueActivities;	
+			return uniqueActivities;
 		}
 
 		function getDiscordAppImageUrl(applicationId, imageId) {
@@ -323,7 +330,6 @@ function reformatDetails(activity) {
 								</div>
 							</div>
 						{/if}
-
 						<div class="ml-4">
 							<p class="opacity-80 font-semibold">
 								{#if activity.type === 3}
@@ -351,15 +357,15 @@ function reformatDetails(activity) {
 									{(activity.details && activity.state) ? ' | ' : ''}
 									{activity.state || ''}
 								</p>
+								<p class="opacity-80">
+									{#if activity.assets?.small_text && !(activity.state?.toLowerCase() === 'idle' || activity.state?.toLowerCase() === 'afk')}
+										{activity.assets.small_text} |
+									{/if}
+									{formatTime(activity)}
+								</p>
 							{/if}
-
-							<p class="opacity-80">
-								{#if activity.assets?.small_text && !(activity.state && (activity.state.toLowerCase() === 'idle' || activity.state.toLowerCase() === 'afk'))}
-									{activity.assets.small_text} |
-								{/if}
-								{formatTime(activity)}
-							</p>
 						</div>
+
 					</div>
 				{/if}
 			{/each}
